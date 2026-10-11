@@ -1,1 +1,125 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiJBbmFseXplIGV4cG9zdXJlLXRlbGVtZXRyeSByZXF1ZXN0IGxvZ3MuCgpSZWFkcyB0aGUgQ1NWIHdyaXR0ZW4gYnkgc2VydmVyLnB5IGFuZCByZXBvcnRzLCBwZXIgdGVzdCBwYWdlIGFuZCBwZXIKKHZlcmlmaWVkKSBjcmF3bGVyIGlkZW50aXR5OgogIC0gZmlyc3QgcmV0cmlldmFsIHRpbWUsIHJldHJpZXZhbCBjb3VudAogIC0gd2hldGhlciB0aGUgY2xpZW50IHJldHJpZXZlZCBwYWdlcyBjYXJyeWluZyBwcmVmZXJlbmNlIGRpcmVjdGl2ZXMKCklkZW50aXR5OiBlc3RhYmxpc2hlZCBieSBmb3J3YXJkLWNvbmZpcm1lZCByZXZlcnNlIEROUyAocmV2ZXJzZSBsb29rdXAsCnRoZW4gZm9yd2FyZCBsb29rdXAgY29uZmlybWluZyB0aGUgc291cmNlIElQKSwgTkVWRVIgYnkgVXNlci1BZ2VudAphbG9uZSAodXNlci1hZ2VudHMgYXJlIHRyaXZpYWxseSBzcG9vZmFibGUpLiBBIGNsaWVudCBpcyBhdHRyaWJ1dGVkIHRvCmEgY3Jhd2xlciBmYW1pbHkgb25seSB3aGVuIGl0cyBvcGVyYXRvciBkb21haW4gaXMgdmVyaWZpZWQgYW5kIG1hdGNoZXMKYSBrbm93biBwYXR0ZXJuOyBvdGhlcndpc2UgaXQgaXMgcmVwb3J0ZWQgYXMgdW52ZXJpZmllZC4gVGhlIGxvZwpjb250YWlucyBvbmx5IHZlcmlmaWVkIG9wZXJhdG9yIGRvbWFpbnMgKGUuZy4gImdvb2dsZWJvdC5jb20iKSwgbmV2ZXIKZnVsbCBQVFIgaG9zdG5hbWVzIG9yIHJhdyBJUHMuCgpFdmlkZW5jZSBsYWRkZXIgKHBhcGVyIMKnNi40KTogdGhpcyB0b29sIHJlcG9ydHMgbGV2ZWwgMSAocmV0cmlldmFsKQphbmQgbGV2ZWwgMiAodmVyaWZpZWQgY3Jhd2xlciByZXRyaWV2YWwpLiBJdCBzYXlzIG5vdGhpbmcgYWJvdXQKbGV2ZWxzIDMtNSAoY2xhaW1lZCBzdXBwb3J0LCBvYnNlcnZlZCBwcm9jZXNzaW5nIGVmZmVjdCwgdXNhZ2UKY29tcGxpYW5jZSkuCgpVc2FnZToKICAgIHB5dGhvbjMgYW5hbHl6ZS5weSBbLS1sb2cgcmVxdWVzdHMuY3N2XQoKVGhpcyBpcyBkZXNjcmlwdGl2ZSwgbm90IGluZmVyZW50aWFsOiBpdCByZXBvcnRzIHdoaWNoICh2ZXJpZmllZCkKY3Jhd2xlcnMgcmV0cmlldmVkIHRoZSBzaWduYWwgYW5kIHdoZW4uIEl0IG1ha2VzIE5PIGNvbXBsaWFuY2UKZGV0ZXJtaW5hdGlvbnMg4oCUIHJldHJpZXZhbCBsb2dzIGNhbm5vdCBlc3RhYmxpc2ggY29tcGxpYW5jZSB3aXRoIGEKdXNhZ2UgcHJlZmVyZW5jZSAoc2VlIHBhcGVyIMKnMSwgwqc2LjMpLiBBYnNlbmNlIG9mIGEgcmV0cmlldmFsIHByb3Zlcwpub3RoaW5nICh0aGUgY3Jhd2xlciBtYXkgbm90IGhhdmUgZGlzY292ZXJlZCB0aGUgcGFnZSB5ZXQpLgoiIiIKaW1wb3J0IGFyZ3BhcnNlCmltcG9ydCBjc3YKaW1wb3J0IHJlCmZyb20gY29sbGVjdGlvbnMgaW1wb3J0IGRlZmF1bHRkaWN0CgojIFZlcmlmaWVkIG9wZXJhdG9yIGRvbWFpbnMgLT4gZmFtaWx5LiBBIGNsaWVudCBpcyBhdHRyaWJ1dGVkIG9ubHkgd2hlbgojIHNlcnZlci5weSBmb3J3YXJkLWNvbmZpcm1lZCB0aGUgZG9tYWluOyBVQSBpcyBzaG93biBmb3IgY29udGV4dCBidXQKIyBuZXZlciB1c2VkIGZvciBpZGVudGl0eS4KT1BFUkFUT1JfUEFUVEVSTlMgPSBbCiAgICAocmUuY29tcGlsZShyIihefFwuKW9wZW5haVwuY29tJCIpLCAiT3BlbkFJIiksCiAgICAocmUuY29tcGlsZShyIihefFwuKWdvb2dsZWJvdFwuY29tJHwoXnxcLilnb29nbGVcLmNvbSQiKSwgIkdvb2dsZSIpLAogICAgKHJlLmNvbXBpbGUociIoXnxcLilhcHBsZWJvdFwuYXBwbGVcLmNvbSQiKSwgIkFwcGxlIiksCiAgICAocmUuY29tcGlsZShyImFtYXpvbmF3c1wuY29tJHxhbWF6b25ib3QiKSwgIkFtYXpvbiIpLAogICAgKHJlLmNvbXBpbGUociJjcmF3bFwuY29tbW9uY3Jhd2xcLm9yZyQiKSwgIkNvbW1vbkNyYXdsIiksCiAgICAocmUuY29tcGlsZShyIihefFwuKXBlcnBsZXhpdHlcLmFpJCIpLCAiUGVycGxleGl0eSIpLAogICAgKHJlLmNvbXBpbGUociIoXnxcLilhbnRocm9waWNcLmNvbSQiKSwgIkFudGhyb3BpYyIpLAogICAgKHJlLmNvbXBpbGUociIoXnxcLilmYWNlYm9va1wuY29tJCIpLCAiTWV0YSIpLAogICAgKHJlLmNvbXBpbGUociIoXnxcLiliaW5nXC5jb20kfChefFwuKW1zblwuY29tJCIpLCAiTWljcm9zb2Z0L0JpbmciKSwKICAgIChyZS5jb21waWxlKHIieWFuZGV4XC4iKSwgIllhbmRleCIpLAogICAgKHJlLmNvbXBpbGUociIoXnxcLiliYWlkdVwuY29tJCIpLCAiQmFpZHUiKSwKICAgIChyZS5jb21waWxlKHIiKF58XC4pZHVja2R1Y2tnb1wuY29tJCIpLCAiRHVja0R1Y2tHbyIpLApdCgpTSUdOQUxfUEFHRVMgPSB7CiAgICAiL2NvbnRlbnQtdXNhZ2UtZGVueS10cmFpbmluZy5odG1sIiwKICAgICIvY29udGVudC11c2FnZS1kZW55LWFsbC5odG1sIiwKICAgICIvY29udGVudC11c2FnZS1kdXBsaWNhdGUta2V5cy5odG1sIiwKICAgICIvY29udGVudC11c2FnZS1ub250b2tlbi5odG1sIiwKICAgICIvY29udGVudC11c2FnZS11cHBlcmNhc2Uta2V5Lmh0bWwiLAogICAgIi9jb250ZW50LXVzYWdlLWJvZHktdGFnLmh0bWwiLAogICAgIi9oZWFkZXItY29udGVudC11c2FnZS5odG1sIiwKICAgICIvcm9ib3RzLWNvbnRlbnQtdXNhZ2UuaHRtbCIsCiAgICAiL3RkbXJlcC5odG1sIiwKICAgICIvcnNsLmh0bWwiLAogICAgIi9yb2JvdHMtbm9hcmNoaXZlLmh0bWwiLAogICAgIi9yb2JvdHMtbm9jYWNoZS5odG1sIiwKICAgICIvbmFtZWQtZ3B0Ym90LWJsb2NrLmh0bWwiLAp9CgoKZGVmIGlkZW50aWZ5KG9wZXJhdG9yLCB2ZXJpZmllZF9mbGFnLCB1YSk6CiAgICAiIiJSZXR1cm4gKGZhbWlseSwgdmVyaWZpZWQ6IGJvb2wpLiIiIgogICAgb3BlcmF0b3IgPSAob3BlcmF0b3Igb3IgIiIpLmxvd2VyKCkucnN0cmlwKCIuIikKICAgIHZlcmlmaWVkID0gdmVyaWZpZWRfZmxhZyA9PSAieWVzIiBhbmQgYm9vbChvcGVyYXRvcikKICAgIGlmIHZlcmlmaWVkOgogICAgICAgIGZvciBwYXQsIGZhbSBpbiBPUEVSQVRPUl9QQVRURVJOUzoKICAgICAgICAgICAgaWYgcGF0LnNlYXJjaChvcGVyYXRvcik6CiAgICAgICAgICAgICAgICByZXR1cm4gZmFtLCBUcnVlCiAgICAgICAgcmV0dXJuIGYidmVyaWZpZWQtdW5rbm93biAoe29wZXJhdG9yfSkiLCBUcnVlCiAgICByZXR1cm4gZiJ1bnZlcmlmaWVkICh7dWFbOjQwXX0pIiwgRmFsc2UKCgpkZWYgbWFpbigpOgogICAgYXAgPSBhcmdwYXJzZS5Bcmd1bWVudFBhcnNlcigpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tbG9nIiwgZGVmYXVsdD0icmVxdWVzdHMuY3N2IikKICAgIGFyZ3MgPSBhcC5wYXJzZV9hcmdzKCkKCiAgICBoaXRzID0gZGVmYXVsdGRpY3QobGlzdCkgICMgKGZhbWlseSwgdmVyaWZpZWQsIHBhdGgpIC0+IFt0aW1lc3RhbXBzXQogICAgd2l0aCBvcGVuKGFyZ3MubG9nLCBuZXdsaW5lPSIiKSBhcyBmOgogICAgICAgIGZvciByb3cgaW4gY3N2LkRpY3RSZWFkZXIoZik6CiAgICAgICAgICAgICMgQmFjay1jb21wYXQ6IG9sZGVyIGxvZ3MgdXNlZCAicmV2ZXJzZV9kbnMiOyBuZXcgbG9ncyB1c2UKICAgICAgICAgICAgIyAib3BlcmF0b3IiLyJ2ZXJpZmllZCIuCiAgICAgICAgICAgIG9wZXJhdG9yID0gcm93LmdldCgib3BlcmF0b3IiLCAiIikgb3Igcm93LmdldCgicmV2ZXJzZV9kbnMiLCAiIikKICAgICAgICAgICAgdmVyaWZpZWRfZmxhZyA9IHJvdy5nZXQoInZlcmlmaWVkIiwgInllcyIgaWYgcm93LmdldCgicmV2ZXJzZV9kbnMiKSBlbHNlICJubyIpCiAgICAgICAgICAgIGZhbSwgdmVyaWZpZWQgPSBpZGVudGlmeShvcGVyYXRvciwgdmVyaWZpZWRfZmxhZywKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJvdy5nZXQoInVzZXJfYWdlbnQiLCAiIikpCiAgICAgICAgICAgIGhpdHNbKGZhbSwgdmVyaWZpZWQsIHJvd1sicGF0aCJdKV0uYXBwZW5kKHJvd1sidGltZXN0YW1wX3V0YyJdKQoKICAgIGZhbXMgPSBzb3J0ZWQoeyhmYW0sIHYpIGZvciBmYW0sIHYsIF8gaW4gaGl0c30pCiAgICBwcmludChmIkNsaWVudCBpZGVudGl0aWVzIG9ic2VydmVkOiB7bGVuKGZhbXMpfSAiCiAgICAgICAgICBmIih7c3VtKDEgZm9yIF8sIHYgaW4gZmFtcyBpZiB2KX0gZm9yd2FyZC1jb25maXJtZWQpIikKICAgIHByaW50KCkKICAgIHByaW50KGYieydmYW1pbHknOjwyOH0geyd2ZXJpZic6PDZ9IHsncGFnZSc6PDM2fSB7J24nOjw1fSB7J2ZpcnN0X3NlZW5fdXRjJ30iKQogICAgcHJpbnQoIi0iICogMTEwKQogICAgZm9yIGZhbSwgdmVyaWZpZWQgaW4gZmFtczoKICAgICAgICBmb3IgcGF0aCBpbiBzb3J0ZWQoe3AgZm9yIChmLCB2LCBwKSBpbiBoaXRzIGlmIChmLCB2KSA9PSAoZmFtLCB2ZXJpZmllZCl9KToKICAgICAgICAgICAgdHMgPSBzb3J0ZWQoaGl0c1soZmFtLCB2ZXJpZmllZCwgcGF0aCldKQogICAgICAgICAgICBmbGFnID0gIiAgPC0tIFNJR05BTC1UQUdHRUQiIGlmIHBhdGggaW4gU0lHTkFMX1BBR0VTIGVsc2UgIiIKICAgICAgICAgICAgcHJpbnQoZiJ7ZmFtOjwyOH0geyd5ZXMnIGlmIHZlcmlmaWVkIGVsc2UgJ25vJzo8Nn0gIgogICAgICAgICAgICAgICAgICBmIntwYXRoOjwzNn0ge2xlbih0cyk6PDV9IHt0c1swXX17ZmxhZ30iKQogICAgcHJpbnQoKQogICAgcHJpbnQoIklOVEVSUFJFVEFUSU9OIChldmlkZW5jZSBsYWRkZXIsIHBhcGVyIMKnNi40KToiKQogICAgcHJpbnQoIi0gTGV2ZWwgMSAocmV0cmlldmFsKTogYSBjbGllbnQgcmVxdWVzdGVkIGEgc2lnbmFsLXRhZ2dlZCBwYWdlLiIpCiAgICBwcmludCgiLSBMZXZlbCAyICh2ZXJpZmllZCBjcmF3bGVyKTogZm9yd2FyZC1jb25maXJtZWQgcmV2ZXJzZSBETlMiKQogICAgcHJpbnQoIiAgZXN0YWJsaXNoZXMgdGhlIG9wZXJhdG9yOyBVc2VyLUFnZW50IGlzIG5ldmVyIHVzZWQgZm9yIGlkZW50aXR5LiIpCiAgICBwcmludCgiLSBUaGlzIHJlcG9ydCBjb3ZlcnMgbGV2ZWxzIDEtMiBPTkxZLiIpCiAgICBwcmludCgiLSBBIHJldHJpZXZhbCBkb2VzIE5PVCBkZW1vbnN0cmF0ZSAobm9uLSljb21wbGlhbmNlOiB0aGUgY3Jhd2xlciIpCiAgICBwcmludCgiICBtdXN0IHJldHJpZXZlIHRoZSBwYWdlIHRvIHJlYWQgaXRzIHRhZ3MsIGFuZCBtYXkgaG9ub3IgdGhlIikKICAgIHByaW50KCIgIHByZWZlcmVuY2UgaW52aXNpYmx5IHRoZXJlYWZ0ZXIuIikKICAgIHByaW50KCItIEFic2VuY2Ugb2YgYSByZXRyaWV2YWwgcHJvdmVzIG5vdGhpbmcgKHBhZ2UgbWF5IGJlIHVuZGlzY292ZXJlZCkuIikKICAgIHByaW50KCItIFVudmVyaWZpZWQgY2xpZW50cyBhcmUgbmV2ZXIgYXR0cmlidXRlZCB0byBhbiBvcGVyYXRvci4iKQoKCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBtYWluKCkK
+#!/usr/bin/env python3
+"""Analyze exposure-telemetry request logs.
+
+Reads the CSV written by server.py and reports, per test page and per
+(verified) crawler identity:
+  - first retrieval time, retrieval count
+  - whether the client retrieved pages carrying preference directives
+
+Identity: established by forward-confirmed reverse DNS (reverse lookup,
+then forward lookup confirming the source IP), NEVER by User-Agent
+alone (user-agents are trivially spoofable). A client is attributed to
+a crawler family only when its operator domain is verified and matches
+a known pattern; otherwise it is reported as unverified. The log
+contains only verified operator domains (e.g. "googlebot.com"), never
+full PTR hostnames or raw IPs.
+
+Evidence ladder (paper §6.4): this tool reports level 1 (retrieval)
+and level 2 (verified crawler retrieval). It says nothing about
+levels 3-5 (claimed support, observed processing effect, usage
+compliance).
+
+Usage:
+    python3 analyze.py [--log requests.csv]
+
+This is descriptive, not inferential: it reports which (verified)
+crawlers retrieved the signal and when. It makes NO compliance
+determinations — retrieval logs cannot establish compliance with a
+usage preference (see paper §1, §6.3). Absence of a retrieval proves
+nothing (the crawler may not have discovered the page yet).
+"""
+import argparse
+import csv
+import re
+from collections import defaultdict
+
+# Verified operator domains -> family. A client is attributed only when
+# server.py forward-confirmed the domain; UA is shown for context but
+# never used for identity.
+OPERATOR_PATTERNS = [
+    (re.compile(r"(^|\.)openai\.com$"), "OpenAI"),
+    (re.compile(r"(^|\.)googlebot\.com$|(^|\.)google\.com$"), "Google"),
+    (re.compile(r"(^|\.)applebot\.apple\.com$"), "Apple"),
+    (re.compile(r"amazonaws\.com$|amazonbot"), "Amazon"),
+    (re.compile(r"crawl\.commoncrawl\.org$"), "CommonCrawl"),
+    (re.compile(r"(^|\.)perplexity\.ai$"), "Perplexity"),
+    (re.compile(r"(^|\.)anthropic\.com$"), "Anthropic"),
+    (re.compile(r"(^|\.)facebook\.com$"), "Meta"),
+    (re.compile(r"(^|\.)bing\.com$|(^|\.)msn\.com$"), "Microsoft/Bing"),
+    (re.compile(r"yandex\."), "Yandex"),
+    (re.compile(r"(^|\.)baidu\.com$"), "Baidu"),
+    (re.compile(r"(^|\.)duckduckgo\.com$"), "DuckDuckGo"),
+]
+
+SIGNAL_PAGES = {
+    "/content-usage-deny-training.html",
+    "/content-usage-deny-all.html",
+    "/content-usage-duplicate-keys.html",
+    "/content-usage-nontoken.html",
+    "/content-usage-uppercase-key.html",
+    "/content-usage-body-tag.html",
+    "/header-content-usage.html",
+    "/robots-content-usage.html",
+    "/tdmrep.html",
+    "/rsl.html",
+    "/robots-noarchive.html",
+    "/robots-nocache.html",
+    "/named-gptbot-block.html",
+}
+
+
+def identify(operator, verified_flag, ua):
+    """Return (family, verified: bool)."""
+    operator = (operator or "").lower().rstrip(".")
+    verified = verified_flag == "yes" and bool(operator)
+    if verified:
+        for pat, fam in OPERATOR_PATTERNS:
+            if pat.search(operator):
+                return fam, True
+        return f"verified-unknown ({operator})", True
+    return f"unverified ({ua[:40]})", False
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--log", default="requests.csv")
+    args = ap.parse_args()
+
+    hits = defaultdict(list)  # (family, verified, path) -> [timestamps]
+    with open(args.log, newline="") as f:
+        for row in csv.DictReader(f):
+            # Back-compat: older logs used "reverse_dns"; new logs use
+            # "operator"/"verified".
+            operator = row.get("operator", "") or row.get("reverse_dns", "")
+            verified_flag = row.get("verified", "yes" if row.get("reverse_dns") else "no")
+            fam, verified = identify(operator, verified_flag,
+                                     row.get("user_agent", ""))
+            hits[(fam, verified, row["path"])].append(row["timestamp_utc"])
+
+    fams = sorted({(fam, v) for fam, v, _ in hits})
+    print(f"Client identities observed: {len(fams)} "
+          f"({sum(1 for _, v in fams if v)} forward-confirmed)")
+    print()
+    print(f"{'family':<28} {'verif':<6} {'page':<36} {'n':<5} {'first_seen_utc'}")
+    print("-" * 110)
+    for fam, verified in fams:
+        for path in sorted({p for (f, v, p) in hits if (f, v) == (fam, verified)}):
+            ts = sorted(hits[(fam, verified, path)])
+            flag = "  <-- SIGNAL-TAGGED" if path in SIGNAL_PAGES else ""
+            print(f"{fam:<28} {'yes' if verified else 'no':<6} "
+                  f"{path:<36} {len(ts):<5} {ts[0]}{flag}")
+    print()
+    print("INTERPRETATION (evidence ladder, paper §6.4):")
+    print("- Level 1 (retrieval): a client requested a signal-tagged page.")
+    print("- Level 2 (verified crawler): forward-confirmed reverse DNS")
+    print("  establishes the operator; User-Agent is never used for identity.")
+    print("- This report covers levels 1-2 ONLY.")
+    print("- A retrieval does NOT demonstrate (non-)compliance: the crawler")
+    print("  must retrieve the page to read its tags, and may honor the")
+    print("  preference invisibly thereafter.")
+    print("- Absence of a retrieval proves nothing (page may be undiscovered).")
+    print("- Unverified clients are never attributed to an operator.")
+
+
+if __name__ == "__main__":
+    main()
