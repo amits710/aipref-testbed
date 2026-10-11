@@ -1,1 +1,328 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiJFeHBvc3VyZS10ZWxlbWV0cnkgd2ViIHNlcnZlciBmb3IgdGhlIEFJIHVzYWdlLXByZWZlcmVuY2VzIHBhcGVyLgoKU2VydmVzIGEgc21hbGwgY29ycHVzIG9mIHRlc3QgcGFnZXMsIGVhY2ggY2FycnlpbmcgYSBkaWZmZXJlbnQgQUktcHJlZmVyZW5jZQpkaXJlY3RpdmUgY29tYmluYXRpb24sIGFuZCBsb2dzIGV2ZXJ5IHJlcXVlc3QgKHRpbWVzdGFtcCwgVXNlci1BZ2VudCwgcGF0aCwKY2xpZW50IG5ldHdvcmsgaWRlbnRpdHkpIHRvIGEgQ1NWIGZpbGUuIERlcGxveSBpdCBvbiBhIHB1YmxpYyBob3N0LCB3YWl0CmRheXMvd2Vla3MsIHRoZW4gYW5hbHl6ZSB3aGljaCBjcmF3bGVycyByZXRyaWV2ZWQgd2hpY2ggcGFnZXMuCgpQdXJwb3NlOiBSRVRSSUVWQUwgT0JTRVJWQVRJT04gKGV2aWRlbmNlLWxhZGRlciBsZXZlbCAxLTIpLiBUaGlzIGhhcm5lc3MKb2JzZXJ2ZXMgdGhhdCBhIGNsaWVudCByZXRyaWV2ZWQgYSBwYWdlIGNhcnJ5aW5nIHRoZSBzaWduYWwuIEl0IGRvZXMgTk9UCmFuZCBjYW5ub3QgbWVhc3VyZSBjb21wbGlhbmNlOiBmZXRjaCBsb2dzIGNhbm5vdCBlc3RhYmxpc2ggY29tcGxpYW5jZQp3aXRoIGEgdXNhZ2UgcHJlZmVyZW5jZSAoc2VlIHBhcGVyIMKnMSwgwqc2LjMpLiBDcmF3bGVyIGlkZW50aXR5IGlzCmVzdGFibGlzaGVkIGJ5IElQIHJldmVyc2UtRE5TIHZlcmlmaWNhdGlvbiwgbmV2ZXIgYnkgVXNlci1BZ2VudCBhbG9uZQoodXNlci1hZ2VudHMgYXJlIHRyaXZpYWxseSBzcG9vZmFibGUpLgoKRXZpZGVuY2UgbGFkZGVyIChwYXBlciDCpzYuNCk6CiAgMS4gcmV0cmlldmFsIC4uLi4uLi4uLi4uLi4gYSBjbGllbnQgcmVxdWVzdGVkIHRoZSBwYWdlICh0aGlzIGhhcm5lc3MpCiAgMi4gdmVyaWZpZWQgY3Jhd2xlciAuLi4uLi4gckROUy12ZXJpZmllZCBvcGVyYXRvciBpZGVudGl0eSAodGhpcyBoYXJuZXNzKQogIDMuIGNsYWltZWQgc3VwcG9ydCAuLi4uLi4uLiBvcGVyYXRvciBkb2N1bWVudHMgc3VwcG9ydCAob3V0IG9mIHNjb3BlKQogIDQuIG9ic2VydmVkIHByb2Nlc3NpbmcgLi4uLiBjb250cm9sbGVkIGJlaGF2aW9yYWwgY2hhbmdlIChmdXR1cmUgd29yaykKICA1LiB1c2FnZSBjb21wbGlhbmNlIC4uLi4uLi4gZ2VuZXJhbGx5IHVub2JzZXJ2YWJsZSBmcm9tIG91dHNpZGUKClByaXZhY3kvZXRoaWNzOiBjbGllbnQgSVBzIGFyZSB0cnVuY2F0ZWQgdG8gLzI0IChJUHY0KSBvciAvNDggKElQdjYpCmFuZCB0aGVuIEhNQUMtaGFzaGVkIHdpdGggYSBwZXItZGVwbG95bWVudCBzZWNyZXQgYmVmb3JlIGxvZ2dpbmc7IHJhdwpJUHMgYXJlIG5ldmVyIHBlcnNpc3RlZC4gT3BlcmF0b3IgaWRlbnRpdHkgaXMgZXN0YWJsaXNoZWQgYnkKZm9yd2FyZC1jb25maXJtZWQgcmV2ZXJzZSBETlMgKG5ldmVyIFVzZXItQWdlbnQgYWxvbmUpOyBvbmx5IHRoZQp2ZXJpZmllZCBvcGVyYXRvciBkb21haW4gKGUuZy4gImdvb2dsZWJvdC5jb20iKSBpcyBsb2dnZWQgLS0gbmV2ZXIgdGhlCmZ1bGwgUFRSIGhvc3RuYW1lLCB3aGljaCByb3V0aW5lbHkgZW1iZWRzIHRoZSBjbGllbnQgSVAuIFJldGVudGlvbjoKOTAgZGF5cy4gU2VlIC0tc2FsdC8tLXNlY3JldCBhbmQgLS10cnVuY2F0ZS8tLWhhc2gtaXBzLgoKU3RkbGliIG9ubHkuIE5vIGRlcGVuZGVuY2llcy4KClVzYWdlOgogICAgcHl0aG9uMyBzZXJ2ZXIucHkgWy0tcG9ydCA4MDAwXSBbLS1sb2cgcmVxdWVzdHMuY3N2XSBbLS1zZWNyZXQgUkFORE9NXQoKVGhlbiBwb2ludCBjcmF3bGVycyBhdCBpdCAoc3VibWl0IHRoZSBzaXRlbWFwIFVSTCB0byBzZWFyY2ggY29uc29sZXMsIGxpbmsKdGhlIHBhZ2VzIGZyb20gYW4gaW5kZXhlZCBwYWdlLCBvciBzaW1wbHkgd2FpdCBmb3IgZGlzY292ZXJ5KS4KIiIiCmltcG9ydCBhcmdwYXJzZQppbXBvcnQgY3N2CmltcG9ydCBkYXRldGltZQppbXBvcnQgaGFzaGxpYgppbXBvcnQgaG1hYwppbXBvcnQgb3MKaW1wb3J0IHNvY2tldAppbXBvcnQgc3lzCmZyb20gaHR0cC5zZXJ2ZXIgaW1wb3J0IEJhc2VIVFRQUmVxdWVzdEhhbmRsZXIsIEhUVFBTZXJ2ZXIKZnJvbSB1cmxsaWIucGFyc2UgaW1wb3J0IHVybHBhcnNlCgpDQU5BUllfUFJFRklYID0gImFpcHJlZmJpbmRpbmciCgpQQUdFUyA9IHsKICAgICMgQ29udHJvbDogbm8gZGlyZWN0aXZlcyBhdCBhbGwuIEV2ZXJ5IGNyYXdsZXIgc2hvdWxkIGZldGNoIHRoaXMuCiAgICAiL2NvbnRyb2wuaHRtbCI6IHsKICAgICAgICAidGl0bGUiOiAiQ29udHJvbCBwYWdlIChubyBkaXJlY3RpdmVzKSIsCiAgICAgICAgImhlYWQiOiAiIiwKICAgICAgICAiaGVhZGVycyI6IHt9LAogICAgICAgICJjYW5hcnkiOiBmIntDQU5BUllfUFJFRklYfS1jb250cm9sLTdmM2E5cSIsCiAgICB9LAogICAgIyBQcm9wb3NlZCBiaW5kaW5nOiBwcmVmZXJlbmNlIHRvIGRpc2FsbG93IHRyYWluaW5nICsgb3RoZXIgQUkgdXNlLAogICAgIyBwcmVmZXJlbmNlIHRvIGFsbG93IEFJUFJFRi1kZWZpbmVkIHNlYXJjaC4KICAgICIvY29udGVudC11c2FnZS1kZW55LXRyYWluaW5nLmh0bWwiOiB7CiAgICAgICAgInRpdGxlIjogImNvbnRlbnQtdXNhZ2U6IHRyYWluLWFpL2FpLXVzZSBkaXNhbGxvdywgc2VhcmNoIGFsbG93IiwKICAgICAgICAiaGVhZCI6ICc8bWV0YSBuYW1lPSJjb250ZW50LXVzYWdlIiBjb250ZW50PSJ0cmFpbi1haT1uLCBhaS11c2U9biwgc2VhcmNoPXkiPicsCiAgICAgICAgImhlYWRlcnMiOiB7fSwKICAgICAgICAiY2FuYXJ5IjogZiJ7Q0FOQVJZX1BSRUZJWH0tY3V0cmFpbmluZy0yYjh4MW0iLAogICAgfSwKICAgICMgUHJvcG9zZWQgYmluZGluZzogcHJlZmVyZW5jZSB0byBkaXNhbGxvdyBhbGwgQUktcmVsYXRlZCB1c2VzLgogICAgIi9jb250ZW50LXVzYWdlLWRlbnktYWxsLmh0bWwiOiB7CiAgICAgICAgInRpdGxlIjogImNvbnRlbnQtdXNhZ2U6IGFsbCBBSSB1c2VzIGRpc2FsbG93IiwKICAgICAgICAiaGVhZCI6ICc8bWV0YSBuYW1lPSJjb250ZW50LXVzYWdlIiBjb250ZW50PSJ0cmFpbi1haT1uLCBhaS11c2U9biwgc2VhcmNoPW4iPicsCiAgICAgICAgImhlYWRlcnMiOiB7fSwKICAgICAgICAiY2FuYXJ5IjogZiJ7Q0FOQVJZX1BSRUZJWH0tY3VhbGwtOWs0cDJ6IiwKICAgIH0sCiAgICAjIEVkZ2UgY2FzZTogZHVwbGljYXRlIGtleXMgKExBU1Qgd2lucyBwZXIgUkZDIDk2NTEgLT4gdHJhaW4tYWk9eSkuCiAgICAiL2NvbnRlbnQtdXNhZ2UtZHVwbGljYXRlLWtleXMuaHRtbCI6IHsKICAgICAgICAidGl0bGUiOiAiY29udGVudC11c2FnZTogZHVwbGljYXRlIGtleXMgKGxhc3Qgd2lucykiLAogICAgICAgICJoZWFkIjogJzxtZXRhIG5hbWU9ImNvbnRlbnQtdXNhZ2UiIGNvbnRlbnQ9InRyYWluLWFpPW4sIHRyYWluLWFpPXksIHNlYXJjaD15Ij4nLAogICAgICAgICJoZWFkZXJzIjoge30sCiAgICAgICAgImNhbmFyeSI6IGYie0NBTkFSWV9QUkVGSVh9LWN1ZHVwLTNtN3ExdyIsCiAgICB9LAogICAgIyBFZGdlIGNhc2U6IG5vbi10b2tlbiB2YWx1ZSAodW5rbm93biBmb3IgdGhhdCBrZXkgcGVyIEFJUFJFRiDCpzYuNSkuCiAgICAiL2NvbnRlbnQtdXNhZ2Utbm9udG9rZW4uaHRtbCI6IHsKICAgICAgICAidGl0bGUiOiAiY29udGVudC11c2FnZTogbm9uLXRva2VuIHZhbHVlIiwKICAgICAgICAiaGVhZCI6ICc8bWV0YSBuYW1lPSJjb250ZW50LXVzYWdlIiBjb250ZW50PSJ0cmFpbi1haT1tYXliZSwgc2VhcmNoPXkiPicsCiAgICAgICAgImhlYWRlcnMiOiB7fSwKICAgICAgICAiY2FuYXJ5IjogZiJ7Q0FOQVJZX1BSRUZJWH0tY3VudC02bjJyNHQiLAogICAgfSwKICAgICMgRWRnZSBjYXNlOiB1cHBlcmNhc2Uga2V5IChpbnZhbGlkIGRpY3Rpb25hcnkgLT4gd2hvbGUgc3RhdGVtZW50IHVua25vd24pLgogICAgIi9jb250ZW50LXVzYWdlLXVwcGVyY2FzZS1rZXkuaHRtbCI6IHsKICAgICAgICAidGl0bGUiOiAiY29udGVudC11c2FnZTogdXBwZXJjYXNlIGtleSAoaW52YWxpZCBkaWN0aW9uYXJ5KSIsCiAgICAgICAgImhlYWQiOiAnPG1ldGEgbmFtZT0iY29udGVudC11c2FnZSIgY29udGVudD0iVHJhaW4tQUk9biwgc2VhcmNoPXkiPicsCiAgICAgICAgImhlYWRlcnMiOiB7fSwKICAgICAgICAiY2FuYXJ5IjogZiJ7Q0FOQVJZX1BSRUZJWH0tY3V1Yy0xYTliM2MiLAogICAgfSwKICAgICMgRWRnZSBjYXNlOiB0YWcgaW4gYm9keSAoTVVTVCBiZSBpZ25vcmVkIHBlciBwcm9jZXNzaW5nIG1vZGVsKS4KICAgICIvY29udGVudC11c2FnZS1ib2R5LXRhZy5odG1sIjogewogICAgICAgICJ0aXRsZSI6ICJjb250ZW50LXVzYWdlOiB0YWcgaW4gYm9keSAoaWdub3JlZCkiLAogICAgICAgICJoZWFkIjogIiIsCiAgICAgICAgImJvZHlfZXh0cmEiOiAnPG1ldGEgbmFtZT0iY29udGVudC11c2FnZSIgY29udGVudD0idHJhaW4tYWk9biwgYWktdXNlPW4sIHNlYXJjaD1uIj4nLAogICAgICAgICJoZWFkZXJzIjoge30sCiAgICAgICAgImNhbmFyeSI6IGYie0NBTkFSWV9QUkVGSVh9LWN1Ym9keS04cDVzMnYiLAogICAgfSwKICAgICMgQUlQUkVGIGhlYWRlciBjYXJyaWVyIChzYW1lIHZvY2FidWxhcnksIEhUVFAgYmluZGluZykuCiAgICAiL2hlYWRlci1jb250ZW50LXVzYWdlLmh0bWwiOiB7CiAgICAgICAgInRpdGxlIjogIkNvbnRlbnQtVXNhZ2UgaGVhZGVyIGJpbmRpbmciLAogICAgICAgICJoZWFkIjogIiIsCiAgICAgICAgImhlYWRlcnMiOiB7IkNvbnRlbnQtVXNhZ2UiOiAidHJhaW4tYWk9biwgYWktdXNlPW4sIHNlYXJjaD15In0sCiAgICAgICAgImNhbmFyeSI6IGYie0NBTkFSWV9QUkVGSVh9LWhlYWRlcm1pcnJvci04ajNrNXMiLAogICAgfSwKICAgICMgQUlQUkVGIHJvYm90cy50eHQgY2FycmllcjogZ3JvdXAtbGV2ZWwgQ29udGVudC1Vc2FnZSBydWxlLgogICAgIi9yb2JvdHMtY29udGVudC11c2FnZS5odG1sIjogewogICAgICAgICJ0aXRsZSI6ICJyb2JvdHMudHh0IENvbnRlbnQtVXNhZ2UgcnVsZSAoc2VlIC9yb2JvdHMudHh0KSIsCiAgICAgICAgImhlYWQiOiAiIiwKICAgICAgICAiaGVhZGVycyI6IHt9LAogICAgICAgICJjYW5hcnkiOiBmIntDQU5BUllfUFJFRklYfS1yb2JvdHNjdS01ZDdlMmYiLAogICAgfSwKICAgICMgQ29leGlzdGVuY2U6IFRETSBSZXNlcnZhdGlvbiBQcm90b2NvbC4KICAgICIvdGRtcmVwLmh0bWwiOiB7CiAgICAgICAgInRpdGxlIjogIlRETSBSZXNlcnZhdGlvbiBQcm90b2NvbCIsCiAgICAgICAgImhlYWQiOiAnPG1ldGEgbmFtZT0idGRtLXJlc2VydmF0aW9uIiBjb250ZW50PSIxIj4nLAogICAgICAgICJoZWFkZXJzIjoge30sCiAgICAgICAgImNhbmFyeSI6IGYie0NBTkFSWV9QUkVGSVh9LXRkbXJlcC00dzl4MXoiLAogICAgfSwKICAgICMgQ29leGlzdGVuY2U6IFJTTCAocHJvaGliaXRpb24gZm9ybSwgbm90IGFpLXRyYWluPW4pLgogICAgIi9yc2wuaHRtbCI6IHsKICAgICAgICAidGl0bGUiOiAiUlNMIHByb2hpYml0aW9uIiwKICAgICAgICAiaGVhZCI6ICc8c2NyaXB0IHR5cGU9ImFwcGxpY2F0aW9uL2xkK2pzb24iPnsiQGNvbnRleHQiOiAiaHR0cHM6Ly9yc2xzdGFuZGFyZC5vcmcvcnNsIiwgIkB0eXBlIjogIkxpY2Vuc2UiLCAicHJvaGliaXRzIjogeyJ0eXBlIjogInVzYWdlIiwgInVzZSI6ICJhaS10cmFpbiJ9fTwvc2NyaXB0PicsCiAgICAgICAgImhlYWRlcnMiOiB7fSwKICAgICAgICAiY2FuYXJ5IjogZiJ7Q0FOQVJZX1BSRUZJWH0tcnNsLTJnOGg0aiIsCiAgICB9LAogICAgIyBCaW5nLXN0eWxlOiBub2FyY2hpdmUgKG5vIEFJIHRyYWluaW5nLCBzdGF5IGluIHNlYXJjaCkuCiAgICAiL3JvYm90cy1ub2FyY2hpdmUuaHRtbCI6IHsKICAgICAgICAidGl0bGUiOiAicm9ib3RzIG5vYXJjaGl2ZSIsCiAgICAgICAgImhlYWQiOiAnPG1ldGEgbmFtZT0icm9ib3RzIiBjb250ZW50PSJub2FyY2hpdmUiPicsCiAgICAgICAgImhlYWRlcnMiOiB7fSwKICAgICAgICAiY2FuYXJ5IjogZiJ7Q0FOQVJZX1BSRUZJWH0tbm9hcmNoaXZlLTV0N3czbiIsCiAgICB9LAogICAgIyBCaW5nLXN0eWxlOiBub2NhY2hlIChDb3BpbG90IGxpbWl0ZWQgdG8gVVJML3RpdGxlL3NuaXBwZXQpLgogICAgIi9yb2JvdHMtbm9jYWNoZS5odG1sIjogewogICAgICAgICJ0aXRsZSI6ICJyb2JvdHMgbm9jYWNoZSIsCiAgICAgICAgImhlYWQiOiAnPG1ldGEgbmFtZT0icm9ib3RzIiBjb250ZW50PSJub2NhY2hlIj4nLAogICAgICAgICJoZWFkZXJzIjoge30sCiAgICAgICAgImNhbmFyeSI6IGYie0NBTkFSWV9QUkVGSVh9LW5vY2FjaGUtMXI2djhiIiwKICAgIH0sCiAgICAjIE5hbWVkLWJvdCBibG9jayAocGVyLWJvdCwgbm90IHBlci1wdXJwb3NlKTogY29udHJhc3QgY2FzZS4KICAgICIvbmFtZWQtZ3B0Ym90LWJsb2NrLmh0bWwiOiB7CiAgICAgICAgInRpdGxlIjogIm5hbWVkIGJvdCBibG9jayAoR1BUQm90KSIsCiAgICAgICAgImhlYWQiOiAnPG1ldGEgbmFtZT0iR1BUQm90IiBjb250ZW50PSJub2luZGV4LCBub2ZvbGxvdyI+JywKICAgICAgICAiaGVhZGVycyI6IHt9LAogICAgICAgICJjYW5hcnkiOiBmIntDQU5BUllfUFJFRklYfS1ncHRib3QtNGQyZjZoIiwKICAgIH0sCn0KClJPQk9UU19UWFQgPSAiIiJVc2VyLWFnZW50OiAqCkFsbG93OiAvCkNvbnRlbnQtVXNhZ2U6IHRyYWluLWFpPW4sIGFpLXVzZT1uLCBzZWFyY2g9eQoiIiIKClNJVEVNQVBfUEFUSFMgPSBzb3J0ZWQoUEFHRVMua2V5cygpKQoKCmRlZiBwYWdlX2h0bWwoc3BlYyk6CiAgICBib2R5X2V4dHJhID0gc3BlYy5nZXQoImJvZHlfZXh0cmEiLCAiIikKICAgIHJldHVybiBmIiIiPCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9InV0Zi04Ij4KPHRpdGxlPntzcGVjWyd0aXRsZSddfTwvdGl0bGU+CntzcGVjWydoZWFkJ119CjwvaGVhZD4KPGJvZHk+Cntib2R5X2V4dHJhfQo8aDE+e3NwZWNbJ3RpdGxlJ119PC9oMT4KPHA+VGhpcyBpcyBhIHRlc3QgcGFnZSBmb3IgQUkgdXNhZ2UtcHJlZmVyZW5jZSBiaW5kaW5nIHJlc2VhcmNoLgpDYW5hcnkgc3RyaW5nOiB7c3BlY1snY2FuYXJ5J119PC9wPgo8cD5Mb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2VjdGV0dXIgYWRpcGlzY2luZyBlbGl0LiBUaGlzIHBhcmFncmFwaApleGlzdHMgc28gdGhlIHBhZ2UgaGFzIGluZGV4YWJsZSBib2R5IGNvbnRlbnQgZGlzdGluY3QgZnJvbSB0aGUgY2FuYXJ5LjwvcD4KPC9ib2R5Pgo8L2h0bWw+CiIiIgoKCmRlZiBfdHJ1bmNhdGVfaXAoaXApOgogICAgIiIiTWluaW1pemU6IC8yNCBmb3IgSVB2NCwgLzQ4IGZvciBJUHY2LiIiIgogICAgaWYgIjoiIGluIGlwOiAgIyBJUHY2CiAgICAgICAgcGFydHMgPSBpcC5zcGxpdCgiOiIpCiAgICAgICAgcmV0dXJuICI6Ii5qb2luKHBhcnRzWzozXSkgKyAiOjovNDgiCiAgICBwYXJ0cyA9IGlwLnNwbGl0KCIuIikKICAgIGlmIGxlbihwYXJ0cykgPT0gNDoKICAgICAgICByZXR1cm4gIi4iLmpvaW4ocGFydHNbOjNdKSArICIuMC8yNCIKICAgIHJldHVybiBpcAoKCmRlZiBfaG1hY19jbGllbnRfaWQodHJ1bmNhdGVkX2lwLCBzZWNyZXQpOgogICAgIiIiSE1BQy1TSEEyNTYgb2YgdGhlIHRydW5jYXRlZCBJUCBrZXllZCBieSB0aGUgcGVyLWRlcGxveW1lbnQgc2VjcmV0LgoKICAgIEEga2V5ZWQgSE1BQyAobm90IGEgcGxhaW4gc2FsdGVkIGhhc2gpIHNvIHRoZSBjbGllbnQgaWRlbnRpZmllcgogICAgY2Fubm90IGJlIHJldmVyc2VkIGJ5IGVudW1lcmF0aW5nIHRoZSAvMjQgaW5wdXQgc3BhY2UuCiAgICAiIiIKICAgIHJldHVybiBobWFjLm5ldygKICAgICAgICBzZWNyZXQuZW5jb2RlKCksIHRydW5jYXRlZF9pcC5lbmNvZGUoKSwgaGFzaGxpYi5zaGEyNTYKICAgICkuaGV4ZGlnZXN0KClbOjE2XQoKCmRlZiBfdmVyaWZ5X29wZXJhdG9yKGlwKToKICAgICIiIkZvcndhcmQtY29uZmlybWVkIHJldmVyc2UgRE5TLgoKICAgIDEuIFJldmVyc2UtbG9va3VwIHRoZSBzb3VyY2UgSVAgLT4gaG9zdG5hbWUuCiAgICAyLiBGb3J3YXJkLWxvb2t1cCB0aGUgaG9zdG5hbWUgLT4gYWRkcmVzcyBsaXN0LgogICAgMy4gQ29uZmlybSB0aGUgb3JpZ2luYWwgSVAgaXMgaW4gdGhlIGZvcndhcmQgcmVzdWx0cy4KCiAgICBSZXR1cm5zICh2ZXJpZmllZDogYm9vbCwgb3BlcmF0b3JfZG9tYWluOiBzdHIpLiBUaGUgb3BlcmF0b3IgZG9tYWluCiAgICBpcyB0aGUgbGFzdCB0d28gRE5TIGxhYmVscyAoZS5nLiAiZ29vZ2xlYm90LmNvbSIpIC0tIG5ldmVyIHRoZSBmdWxsCiAgICBQVFIgaG9zdG5hbWUsIHdoaWNoIHJvdXRpbmVseSBlbWJlZHMgdGhlIGNsaWVudCBJUAogICAgKGUuZy4gImNyYXdsLTY2LTI0OS02MC0xLmdvb2dsZWJvdC5jb20iKS4gVW52ZXJpZmllZCBjbGllbnRzIHlpZWxkCiAgICAoRmFsc2UsICIiKS4KICAgICIiIgogICAgdHJ5OgogICAgICAgIHNvY2tldC5zZXRkZWZhdWx0dGltZW91dCg1KQogICAgICAgIGhvc3RuYW1lID0gc29ja2V0LmdldGhvc3RieWFkZHIoaXApWzBdLnJzdHJpcCgiLiIpLmxvd2VyKCkKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcmV0dXJuIChGYWxzZSwgIiIpCiAgICB0cnk6CiAgICAgICAgXywgXywgYWRkcnMgPSBzb2NrZXQuZ2V0aG9zdGJ5bmFtZV9leChob3N0bmFtZSkKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcmV0dXJuIChGYWxzZSwgIiIpCiAgICAjIE5vcm1hbGl6ZSBmb3IgY29tcGFyaXNvbiAoSVB2NiBmb3JtcyBtYXkgdmFyeSB0ZXh0dWFsbHkpLgogICAgaWYgaXAgbm90IGluIGFkZHJzOgogICAgICAgIHJldHVybiAoRmFsc2UsICIiKQogICAgbGFiZWxzID0gaG9zdG5hbWUuc3BsaXQoIi4iKQogICAgb3BlcmF0b3IgPSAiLiIuam9pbihsYWJlbHNbLTI6XSkgaWYgbGVuKGxhYmVscykgPj0gMiBlbHNlIGhvc3RuYW1lCiAgICByZXR1cm4gKFRydWUsIG9wZXJhdG9yKQoKCmNsYXNzIEhhbmRsZXIoQmFzZUhUVFBSZXF1ZXN0SGFuZGxlcik6CiAgICBsb2dfcGF0aCA9ICJyZXF1ZXN0cy5jc3YiCiAgICBzZWNyZXQgPSAiY2hhbmdlLW1lIgoKICAgIGRlZiBfbG9nKHNlbGYsIHBhdGgpOgogICAgICAgIHVhID0gc2VsZi5oZWFkZXJzLmdldCgiVXNlci1BZ2VudCIsICItIikKICAgICAgICBpcCA9IHNlbGYuY2xpZW50X2FkZHJlc3NbMF0KICAgICAgICBpZGVudCA9IF9obWFjX2NsaWVudF9pZChfdHJ1bmNhdGVfaXAoaXApLCBzZWxmLnNlY3JldCkKICAgICAgICB2ZXJpZmllZCwgb3BlcmF0b3IgPSBfdmVyaWZ5X29wZXJhdG9yKGlwKQogICAgICAgIHRzID0gZGF0ZXRpbWUuZGF0ZXRpbWUubm93KGRhdGV0aW1lLnRpbWV6b25lLnV0YykuaXNvZm9ybWF0KCkKICAgICAgICBleGlzdHMgPSBvcy5wYXRoLmV4aXN0cyhzZWxmLmxvZ19wYXRoKQogICAgICAgIHdpdGggb3BlbihzZWxmLmxvZ19wYXRoLCAiYSIsIG5ld2xpbmU9IiIpIGFzIGY6CiAgICAgICAgICAgIHcgPSBjc3Yud3JpdGVyKGYpCiAgICAgICAgICAgIGlmIG5vdCBleGlzdHM6CiAgICAgICAgICAgICAgICB3LndyaXRlcm93KFsidGltZXN0YW1wX3V0YyIsICJjbGllbnRfaWQiLCAib3BlcmF0b3IiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgInZlcmlmaWVkIiwgInVzZXJfYWdlbnQiLCAicGF0aCJdKQogICAgICAgICAgICB3LndyaXRlcm93KFt0cywgaWRlbnQsIG9wZXJhdG9yIGlmIHZlcmlmaWVkIGVsc2UgIiIsCiAgICAgICAgICAgICAgICAgICAgICAgICJ5ZXMiIGlmIHZlcmlmaWVkIGVsc2UgIm5vIiwgdWEsIHBhdGhdKQoKICAgIGRlZiBkb19HRVQoc2VsZik6CiAgICAgICAgcGF0aCA9IHVybHBhcnNlKHNlbGYucGF0aCkucGF0aAogICAgICAgIHNlbGYuX2xvZyhwYXRoKQogICAgICAgIGlmIHBhdGggPT0gIi9yb2JvdHMudHh0IjoKICAgICAgICAgICAgYm9keSA9IFJPQk9UU19UWFQuZW5jb2RlKCkKICAgICAgICAgICAgc2VsZi5zZW5kX3Jlc3BvbnNlKDIwMCkKICAgICAgICAgICAgc2VsZi5zZW5kX2hlYWRlcigiQ29udGVudC1UeXBlIiwgInRleHQvcGxhaW4iKQogICAgICAgICAgICBzZWxmLnNlbmRfaGVhZGVyKCJDb250ZW50LUxlbmd0aCIsIHN0cihsZW4oYm9keSkpKQogICAgICAgICAgICBzZWxmLmVuZF9oZWFkZXJzKCkKICAgICAgICAgICAgc2VsZi53ZmlsZS53cml0ZShib2R5KQogICAgICAgICAgICByZXR1cm4KICAgICAgICBpZiBwYXRoID09ICIvc2l0ZW1hcC50eHQiOgogICAgICAgICAgICBib2R5ID0gKCJcbiIuam9pbihTSVRFTUFQX1BBVEhTKSArICJcbiIpLmVuY29kZSgpCiAgICAgICAgICAgIHNlbGYuc2VuZF9yZXNwb25zZSgyMDApCiAgICAgICAgICAgIHNlbGYuc2VuZF9oZWFkZXIoIkNvbnRlbnQtVHlwZSIsICJ0ZXh0L3BsYWluIikKICAgICAgICAgICAgc2VsZi5zZW5kX2hlYWRlcigiQ29udGVudC1MZW5ndGgiLCBzdHIobGVuKGJvZHkpKSkKICAgICAgICAgICAgc2VsZi5lbmRfaGVhZGVycygpCiAgICAgICAgICAgIHNlbGYud2ZpbGUud3JpdGUoYm9keSkKICAgICAgICAgICAgcmV0dXJuCiAgICAgICAgaWYgcGF0aCBpbiAoIi8iLCAiL2luZGV4Lmh0bWwiKToKICAgICAgICAgICAgbGlua3MgPSAiXG4iLmpvaW4oCiAgICAgICAgICAgICAgICBmJzxsaT48YSBocmVmPSJ7cH0iPntwfTwvYT48L2xpPicgZm9yIHAgaW4gU0lURU1BUF9QQVRIUwogICAgICAgICAgICApCiAgICAgICAgICAgIGJvZHkgPSBmIiIiPCFET0NUWVBFIGh0bWw+PGh0bWw+PGhlYWQ+PHRpdGxlPkV4cG9zdXJlIHRlbGVtZXRyeSBjb3JwdXM8L3RpdGxlPjwvaGVhZD4KPGJvZHk+PGgxPlRlc3QgY29ycHVzPC9oMT48dWw+e2xpbmtzfTwvdWw+PC9ib2R5PjwvaHRtbD4iIiIuZW5jb2RlKCkKICAgICAgICAgICAgc2VsZi5zZW5kX3Jlc3BvbnNlKDIwMCkKICAgICAgICAgICAgc2VsZi5zZW5kX2hlYWRlcigiQ29udGVudC1UeXBlIiwgInRleHQvaHRtbDsgY2hhcnNldD11dGYtOCIpCiAgICAgICAgICAgIHNlbGYuc2VuZF9oZWFkZXIoIkNvbnRlbnQtTGVuZ3RoIiwgc3RyKGxlbihib2R5KSkpCiAgICAgICAgICAgIHNlbGYuZW5kX2hlYWRlcnMoKQogICAgICAgICAgICBzZWxmLndmaWxlLndyaXRlKGJvZHkpCiAgICAgICAgICAgIHJldHVybgogICAgICAgIHNwZWMgPSBQQUdFUy5nZXQocGF0aCkKICAgICAgICBpZiBzcGVjIGlzIE5vbmU6CiAgICAgICAgICAgIHNlbGYuc2VuZF9yZXNwb25zZSg0MDQpCiAgICAgICAgICAgIHNlbGYuZW5kX2hlYWRlcnMoKQogICAgICAgICAgICByZXR1cm4KICAgICAgICBib2R5ID0gcGFnZV9odG1sKHNwZWMpLmVuY29kZSgidXRmLTgiKQogICAgICAgIHNlbGYuc2VuZF9yZXNwb25zZSgyMDApCiAgICAgICAgc2VsZi5zZW5kX2hlYWRlcigiQ29udGVudC1UeXBlIiwgInRleHQvaHRtbDsgY2hhcnNldD11dGYtOCIpCiAgICAgICAgZm9yIGssIHYgaW4gc3BlY1siaGVhZGVycyJdLml0ZW1zKCk6CiAgICAgICAgICAgIHNlbGYuc2VuZF9oZWFkZXIoaywgdikKICAgICAgICBzZWxmLnNlbmRfaGVhZGVyKCJDb250ZW50LUxlbmd0aCIsIHN0cihsZW4oYm9keSkpKQogICAgICAgIHNlbGYuZW5kX2hlYWRlcnMoKQogICAgICAgIHNlbGYud2ZpbGUud3JpdGUoYm9keSkKCiAgICBkZWYgbG9nX21lc3NhZ2Uoc2VsZiwgKmFyZ3MpOgogICAgICAgIHBhc3MgICMgcmVxdWVzdCBsb2dnaW5nIGdvZXMgdG8gdGhlIENTViwgbm90IHN0ZGVycgoKCmRlZiBtYWluKCk6CiAgICBhcCA9IGFyZ3BhcnNlLkFyZ3VtZW50UGFyc2VyKGRlc2NyaXB0aW9uPSJBSSB1c2FnZS1wcmVmZXJlbmNlIGV4cG9zdXJlLXRlbGVtZXRyeSBzZXJ2ZXIiKQogICAgYXAuYWRkX2FyZ3VtZW50KCItLXBvcnQiLCB0eXBlPWludCwgZGVmYXVsdD04MDAwKQogICAgYXAuYWRkX2FyZ3VtZW50KCItLWxvZyIsIGRlZmF1bHQ9InJlcXVlc3RzLmNzdiIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tc2VjcmV0IiwgZGVmYXVsdD0iY2hhbmdlLW1lIiwKICAgICAgICAgICAgICAgICAgICBoZWxwPSJwZXItZGVwbG95bWVudCBITUFDIHNlY3JldCBmb3IgY2xpZW50LUlEIGhhc2hpbmcgIgogICAgICAgICAgICAgICAgICAgICAgICAgIihwYXNzIGEgcmFuZG9tIHZhbHVlOyBuZXZlciBwdWJsaXNoIGl0KSIpCiAgICBhcmdzID0gYXAucGFyc2VfYXJncygpCiAgICBIYW5kbGVyLmxvZ19wYXRoID0gYXJncy5sb2cKICAgIEhhbmRsZXIuc2VjcmV0ID0gYXJncy5zZWNyZXQKICAgIHNydiA9IEhUVFBTZXJ2ZXIoKCIwLjAuMC4wIiwgYXJncy5wb3J0KSwgSGFuZGxlcikKICAgIHByaW50KGYiU2VydmluZyB7bGVuKFBBR0VTKX0gdGVzdCBwYWdlcyBvbiBwb3J0IHthcmdzLnBvcnR9OyBsb2dnaW5nIHRvIHthcmdzLmxvZ30iLCBmbHVzaD1UcnVlKQogICAgcHJpbnQoIlBhZ2VzOiIsICIsICIuam9pbihTSVRFTUFQX1BBVEhTKSwgZmx1c2g9VHJ1ZSkKICAgIHByaW50KCJQcml2YWN5OiBjbGllbnQgSVBzIHRydW5jYXRlZCAoLzI0LCAvNDgpIGFuZCBITUFDLWhhc2hlZCB3aXRoIGEgIgogICAgICAgICAgInBlci1kZXBsb3ltZW50IHNlY3JldDsgb25seSBmb3J3YXJkLWNvbmZpcm1lZCBvcGVyYXRvciBkb21haW5zICIKICAgICAgICAgICJsb2dnZWQgKG5ldmVyIGZ1bGwgUFRSIGhvc3RuYW1lcyBvciByYXcgSVBzKS4gIgogICAgICAgICAgIlN1Z2dlc3RlZCByZXRlbnRpb246IDkwIGRheXMuIiwgZmx1c2g9VHJ1ZSkKICAgIHRyeToKICAgICAgICBzcnYuc2VydmVfZm9yZXZlcigpCiAgICBleGNlcHQgS2V5Ym9hcmRJbnRlcnJ1cHQ6CiAgICAgICAgcGFzcwoKCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBtYWluKCkK
+#!/usr/bin/env python3
+"""Exposure-telemetry web server for the AI usage-preferences paper.
+
+Serves a small corpus of test pages, each carrying a different AI-preference
+directive combination, and logs every request (timestamp, User-Agent, path,
+client network identity) to a CSV file. Deploy it on a public host, wait
+days/weeks, then analyze which crawlers retrieved which pages.
+
+Purpose: RETRIEVAL OBSERVATION (evidence-ladder level 1-2). This harness
+observes that a client retrieved a page carrying the signal. It does NOT
+and cannot measure compliance: fetch logs cannot establish compliance
+with a usage preference (see paper §1, §6.3). Crawler identity is
+established by IP reverse-DNS verification, never by User-Agent alone
+(user-agents are trivially spoofable).
+
+Evidence ladder (paper §6.4):
+  1. retrieval ............. a client requested the page (this harness)
+  2. verified crawler ...... rDNS-verified operator identity (this harness)
+  3. claimed support ........ operator documents support (out of scope)
+  4. observed processing .... controlled behavioral change (future work)
+  5. usage compliance ....... generally unobservable from outside
+
+Privacy/ethics: client IPs are truncated to /24 (IPv4) or /48 (IPv6)
+and then HMAC-hashed with a per-deployment secret before logging; raw
+IPs are never persisted. Operator identity is established by
+forward-confirmed reverse DNS (never User-Agent alone); only the
+verified operator domain (e.g. "googlebot.com") is logged -- never the
+full PTR hostname, which routinely embeds the client IP. Retention:
+90 days. See --salt/--secret and --truncate/--hash-ips.
+
+Stdlib only. No dependencies.
+
+Usage:
+    python3 server.py [--port 8000] [--log requests.csv] [--secret RANDOM]
+
+Then point crawlers at it (submit the sitemap URL to search consoles, link
+the pages from an indexed page, or simply wait for discovery).
+"""
+import argparse
+import csv
+import datetime
+import hashlib
+import hmac
+import os
+import socket
+import sys
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlparse
+
+CANARY_PREFIX = "aiprefbinding"
+
+PAGES = {
+    # Control: no directives at all. Every crawler should fetch this.
+    "/control.html": {
+        "title": "Control page (no directives)",
+        "head": "",
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-control-7f3a9q",
+    },
+    # Proposed binding: preference to disallow training + other AI use,
+    # preference to allow AIPREF-defined search.
+    "/content-usage-deny-training.html": {
+        "title": "content-usage: train-ai/ai-use disallow, search allow",
+        "head": '<meta name="content-usage" content="train-ai=n, ai-use=n, search=y">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-cutraining-2b8x1m",
+    },
+    # Proposed binding: preference to disallow all AI-related uses.
+    "/content-usage-deny-all.html": {
+        "title": "content-usage: all AI uses disallow",
+        "head": '<meta name="content-usage" content="train-ai=n, ai-use=n, search=n">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-cuall-9k4p2z",
+    },
+    # Edge case: duplicate keys (LAST wins per RFC 9651 -> train-ai=y).
+    "/content-usage-duplicate-keys.html": {
+        "title": "content-usage: duplicate keys (last wins)",
+        "head": '<meta name="content-usage" content="train-ai=n, train-ai=y, search=y">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-cudup-3m7q1w",
+    },
+    # Edge case: non-token value (unknown for that key per AIPREF §6.5).
+    "/content-usage-nontoken.html": {
+        "title": "content-usage: non-token value",
+        "head": '<meta name="content-usage" content="train-ai=maybe, search=y">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-cunt-6n2r4t",
+    },
+    # Edge case: uppercase key (invalid dictionary -> whole statement unknown).
+    "/content-usage-uppercase-key.html": {
+        "title": "content-usage: uppercase key (invalid dictionary)",
+        "head": '<meta name="content-usage" content="Train-AI=n, search=y">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-cuuc-1a9b3c",
+    },
+    # Edge case: tag in body (MUST be ignored per processing model).
+    "/content-usage-body-tag.html": {
+        "title": "content-usage: tag in body (ignored)",
+        "head": "",
+        "body_extra": '<meta name="content-usage" content="train-ai=n, ai-use=n, search=n">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-cubody-8p5s2v",
+    },
+    # AIPREF header carrier (same vocabulary, HTTP binding).
+    "/header-content-usage.html": {
+        "title": "Content-Usage header binding",
+        "head": "",
+        "headers": {"Content-Usage": "train-ai=n, ai-use=n, search=y"},
+        "canary": f"{CANARY_PREFIX}-headermirror-8j3k5s",
+    },
+    # AIPREF robots.txt carrier: group-level Content-Usage rule.
+    "/robots-content-usage.html": {
+        "title": "robots.txt Content-Usage rule (see /robots.txt)",
+        "head": "",
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-robotscu-5d7e2f",
+    },
+    # Coexistence: TDM Reservation Protocol.
+    "/tdmrep.html": {
+        "title": "TDM Reservation Protocol",
+        "head": '<meta name="tdm-reservation" content="1">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-tdmrep-4w9x1z",
+    },
+    # Coexistence: RSL (prohibition form, not ai-train=n).
+    "/rsl.html": {
+        "title": "RSL prohibition",
+        "head": '<script type="application/ld+json">{"@context": "https://rslstandard.org/rsl", "@type": "License", "prohibits": {"type": "usage", "use": "ai-train"}}</script>',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-rsl-2g8h4j",
+    },
+    # Bing-style: noarchive (no AI training, stay in search).
+    "/robots-noarchive.html": {
+        "title": "robots noarchive",
+        "head": '<meta name="robots" content="noarchive">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-noarchive-5t7w3n",
+    },
+    # Bing-style: nocache (Copilot limited to URL/title/snippet).
+    "/robots-nocache.html": {
+        "title": "robots nocache",
+        "head": '<meta name="robots" content="nocache">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-nocache-1r6v8b",
+    },
+    # Named-bot block (per-bot, not per-purpose): contrast case.
+    "/named-gptbot-block.html": {
+        "title": "named bot block (GPTBot)",
+        "head": '<meta name="GPTBot" content="noindex, nofollow">',
+        "headers": {},
+        "canary": f"{CANARY_PREFIX}-gptbot-4d2f6h",
+    },
+}
+
+ROBOTS_TXT = """User-agent: *
+Allow: /
+Content-Usage: train-ai=n, ai-use=n, search=y
+"""
+
+SITEMAP_PATHS = sorted(PAGES.keys())
+
+
+def page_html(spec):
+    body_extra = spec.get("body_extra", "")
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{spec['title']}</title>
+{spec['head']}
+</head>
+<body>
+{body_extra}
+<h1>{spec['title']}</h1>
+<p>This is a test page for AI usage-preference binding research.
+Canary string: {spec['canary']}</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This paragraph
+exists so the page has indexable body content distinct from the canary.</p>
+</body>
+</html>
+"""
+
+
+def _truncate_ip(ip):
+    """Minimize: /24 for IPv4, /48 for IPv6."""
+    if ":" in ip:  # IPv6
+        parts = ip.split(":")
+        return ":".join(parts[:3]) + "::/48"
+    parts = ip.split(".")
+    if len(parts) == 4:
+        return ".".join(parts[:3]) + ".0/24"
+    return ip
+
+
+def _hmac_client_id(truncated_ip, secret):
+    """HMAC-SHA256 of the truncated IP keyed by the per-deployment secret.
+
+    A keyed HMAC (not a plain salted hash) so the client identifier
+    cannot be reversed by enumerating the /24 input space.
+    """
+    return hmac.new(
+        secret.encode(), truncated_ip.encode(), hashlib.sha256
+    ).hexdigest()[:16]
+
+
+def _verify_operator(ip):
+    """Forward-confirmed reverse DNS.
+
+    1. Reverse-lookup the source IP -> hostname.
+    2. Forward-lookup the hostname -> address list.
+    3. Confirm the original IP is in the forward results.
+
+    Returns (verified: bool, operator_domain: str). The operator domain
+    is the last two DNS labels (e.g. "googlebot.com") -- never the full
+    PTR hostname, which routinely embeds the client IP
+    (e.g. "crawl-66-249-60-1.googlebot.com"). Unverified clients yield
+    (False, "").
+    """
+    try:
+        socket.setdefaulttimeout(5)
+        hostname = socket.gethostbyaddr(ip)[0].rstrip(".").lower()
+    except Exception:
+        return (False, "")
+    try:
+        _, _, addrs = socket.gethostbyname_ex(hostname)
+    except Exception:
+        return (False, "")
+    # Normalize for comparison (IPv6 forms may vary textually).
+    if ip not in addrs:
+        return (False, "")
+    labels = hostname.split(".")
+    operator = ".".join(labels[-2:]) if len(labels) >= 2 else hostname
+    return (True, operator)
+
+
+class Handler(BaseHTTPRequestHandler):
+    log_path = "requests.csv"
+    secret = "change-me"
+
+    def _log(self, path):
+        ua = self.headers.get("User-Agent", "-")
+        ip = self.client_address[0]
+        ident = _hmac_client_id(_truncate_ip(ip), self.secret)
+        verified, operator = _verify_operator(ip)
+        ts = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        exists = os.path.exists(self.log_path)
+        with open(self.log_path, "a", newline="") as f:
+            w = csv.writer(f)
+            if not exists:
+                w.writerow(["timestamp_utc", "client_id", "operator",
+                            "verified", "user_agent", "path"])
+            w.writerow([ts, ident, operator if verified else "",
+                        "yes" if verified else "no", ua, path])
+
+    def do_GET(self):
+        path = urlparse(self.path).path
+        self._log(path)
+        if path == "/robots.txt":
+            body = ROBOTS_TXT.encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if path == "/sitemap.txt":
+            body = ("\n".join(SITEMAP_PATHS) + "\n").encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if path in ("/", "/index.html"):
+            links = "\n".join(
+                f'<li><a href="{p}">{p}</a></li>' for p in SITEMAP_PATHS
+            )
+            body = f"""<!DOCTYPE html><html><head><title>Exposure telemetry corpus</title></head>
+<body><h1>Test corpus</h1><ul>{links}</ul></body></html>""".encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        spec = PAGES.get(path)
+        if spec is None:
+            self.send_response(404)
+            self.end_headers()
+            return
+        body = page_html(spec).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        for k, v in spec["headers"].items():
+            self.send_header(k, v)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, *args):
+        pass  # request logging goes to the CSV, not stderr
+
+
+def main():
+    ap = argparse.ArgumentParser(description="AI usage-preference exposure-telemetry server")
+    ap.add_argument("--port", type=int, default=8000)
+    ap.add_argument("--log", default="requests.csv")
+    ap.add_argument("--secret", default="change-me",
+                    help="per-deployment HMAC secret for client-ID hashing "
+                         "(pass a random value; never publish it)")
+    args = ap.parse_args()
+    Handler.log_path = args.log
+    Handler.secret = args.secret
+    srv = HTTPServer(("0.0.0.0", args.port), Handler)
+    print(f"Serving {len(PAGES)} test pages on port {args.port}; logging to {args.log}", flush=True)
+    print("Pages:", ", ".join(SITEMAP_PATHS), flush=True)
+    print("Privacy: client IPs truncated (/24, /48) and HMAC-hashed with a "
+          "per-deployment secret; only forward-confirmed operator domains "
+          "logged (never full PTR hostnames or raw IPs). "
+          "Suggested retention: 90 days.", flush=True)
+    try:
+        srv.serve_forever()
+    except KeyboardInterrupt:
+        pass
+
+
+if __name__ == "__main__":
+    main()
