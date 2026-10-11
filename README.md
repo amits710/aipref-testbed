@@ -1,16 +1,18 @@
-# Exposure-telemetry harness
+# AIPREF-HTML: Inline HTML Binding for AI Usage Preferences
 
-Serves a corpus of test pages carrying AI usage-preference directives and
-logs every client retrieval. Used for the *retrieval-observation* half of
-the paper — which (verified) crawlers retrieved pages carrying the
-`<meta name="content-usage">` signal, and when.
+Implements the **AIPREF-HTML** resource from the Web Conference 2027
+Resource Track paper: a `<meta name="content-usage">` binding carrying
+the IETF AIPREF per-purpose preference vocabulary (`train-ai`, `ai-use`,
+`search`), with a dependency-free parser, a WHATWG-based reference
+oracle, 71 conformance vectors, and a deployment toolkit (test server,
+retrieval analyzer, Hugo integration).
 
-**Explicit non-claim:** this harness does not and cannot measure
+**Explicit non-claim:** this resource does not and cannot measure
 compliance. Fetch logs cannot establish compliance with a usage
 preference: a crawler must fetch a page to read its meta tags, and may
 then honor the preference invisibly or violate it invisibly (paper §1,
-§6.3). Crawler identity is established by forward-confirmed reverse DNS,
-never by User-Agent alone (paper §6.4, evidence ladder rungs 1–2).
+§5). Crawler identity is established by forward-confirmed reverse DNS,
+never by User-Agent alone (paper §5).
 
 ## Corpus
 
@@ -40,7 +42,7 @@ rule (we want to observe meta-tag behavior, not robots.txt blocking).
 ## Parser conformance suite
 
 `parser.py` is the dependency-free reference parser implementing the
-paper's §3.2 processing model: strict RFC 9651 dictionary parsing,
+paper's §2.2 processing model: strict RFC 9651 dictionary parsing,
 AIPREF §6.5 value mapping, AIPREF §5.1 multi-statement combination, and
 three-carrier evaluation (robots.txt → HTTP header → HTML meta).
 
@@ -48,10 +50,10 @@ three-carrier evaluation (robots.txt → HTTP header → HTML meta).
 python3 parser.py --self-test   # 71/71 must pass
 ```
 
-`html5lib_reference.py` is a second, independent implementation of the
-HTML extraction layer using html5lib (a WHATWG-conforming tree builder).
-It implements the normative §3.2 tree model directly and is used for
-differential validation:
+`html5lib_reference.py` is a second, independently implemented
+reference oracle for the HTML extraction layer using html5lib (a
+WHATWG-conforming tree builder). It implements the §2.2 extraction rules
+directly and is used for differential validation:
 
 ```bash
 pip install html5lib
@@ -59,10 +61,14 @@ python3 html5lib_reference.py --self-test       # 10/10 malformed vectors
 python3 html5lib_reference.py --differential    # 34/34 agree, 0 divergences
 ```
 
+`httpwg-corpus-check.py` validates the RFC 9651 dictionary parser
+against the HTTPWG `structured-field-tests` external corpus.
+
 ## Deploy
 
+All files sit at the repository root. From a clone:
+
 ```bash
-cd compliance-test
 python3 server.py --port 8000 --log requests.csv --secret "$(openssl rand -hex 16)"
 ```
 
@@ -74,7 +80,7 @@ with a per-deployment secret; raw IPs are never persisted. Operator
 identity uses forward-confirmed reverse DNS; only the verified operator
 domain is logged, never the full PTR hostname. Pass a random `--secret`
 per deployment and never publish it. Suggested retention: 90 days (see
-paper §6.5).
+paper §5).
 
 To attract crawlers:
 1. Submit the sitemap URL to Bing/Google Search Console.
@@ -94,8 +100,7 @@ python3 analyze.py --log requests.csv
 
 The analyzer attributes clients by **forward-confirmed reverse DNS
 only** — never by User-Agent alone — and reports which verified crawlers
-retrieved the signal and when (evidence-ladder rungs 1–2). Interpretation
-rules (see paper §6.3–6.4):
+retrieved the signal and when. Interpretation rules (see paper §5):
 - A retrieval of a signal-tagged page = the client *retrieved* the signal.
   Nothing more. It does not demonstrate non-compliance.
 - Unverified clients are never attributed to an operator.
