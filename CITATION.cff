@@ -1,0 +1,30 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+cff-version: 1.2.0
+title: "AIPREF-HTML: Inline HTML Binding for AI Usage Preferences"
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - family-names: Sonar
+    given-names: Amit
+version: 1.0.0
+date-released: '2026-10-11'
+repository-code: 'https://github.com/amits710/aipref-testbed'
+license: MIT
+keywords:
+  - AIPREF
+  - AI usage preferences
+  - robots.txt
+  - web standards
+  - content-usage
+abstract: >-
+  Reference implementation of a proposed inline HTML binding
+  (<meta name="content-usage">) for the IETF AIPREF per-purpose
+  AI usage preference vocabulary (train-ai, ai-use, search).
+  Includes a dependency-free RFC 9651 dictionary parser with
+  71 conformance vectors, a WHATWG-based reference oracle with
+  differential validation, a test corpus server with privacy-aware
+  retrieval logging, and a retrieval analyzer. Companion resource
+  for The Web Conference 2027 Resource Track submission.
