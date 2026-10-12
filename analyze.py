@@ -36,17 +36,22 @@ from collections import defaultdict
 # Verified operator domains -> family. A client is attributed only when
 # server.py forward-confirmed the domain; UA is shown for context but
 # never used for identity.
+#
+# server.py logs REGISTRABLE domains (eTLD+1, public-suffix-aware), so
+# patterns here must match registrable domains, not full PTR hostnames:
+# e.g. "crawl-1-2-3.googlebot.com" is logged as "googlebot.com", and
+# "x.applebot.apple.com" is logged as "apple.com".
 OPERATOR_PATTERNS = [
     (re.compile(r"(^|\.)openai\.com$"), "OpenAI"),
     (re.compile(r"(^|\.)googlebot\.com$|(^|\.)google\.com$"), "Google"),
-    (re.compile(r"(^|\.)applebot\.apple\.com$"), "Apple"),
-    (re.compile(r"amazonaws\.com$|amazonbot"), "Amazon"),
-    (re.compile(r"crawl\.commoncrawl\.org$"), "CommonCrawl"),
+    (re.compile(r"(^|\.)apple\.com$"), "Apple"),
+    (re.compile(r"(^|\.)(amazonaws\.com|amazon\.com)$"), "Amazon"),
+    (re.compile(r"(^|\.)commoncrawl\.org$"), "CommonCrawl"),
     (re.compile(r"(^|\.)perplexity\.ai$"), "Perplexity"),
     (re.compile(r"(^|\.)anthropic\.com$"), "Anthropic"),
     (re.compile(r"(^|\.)facebook\.com$"), "Meta"),
     (re.compile(r"(^|\.)bing\.com$|(^|\.)msn\.com$"), "Microsoft/Bing"),
-    (re.compile(r"yandex\."), "Yandex"),
+    (re.compile(r"(^|\.)yandex\.[a-z.]+$"), "Yandex"),
     (re.compile(r"(^|\.)baidu\.com$"), "Baidu"),
     (re.compile(r"(^|\.)duckduckgo\.com$"), "DuckDuckGo"),
 ]
@@ -68,6 +73,11 @@ SIGNAL_PAGES = {
 }
 
 
+def _safe_ua_snippet(ua):
+    """Short UA snippet safe to print: control chars neutralized."""
+    return re.sub(r"[\x00-\x1f\x7f]", "?", (ua or "")[:40])
+
+
 def identify(operator, verified_flag, ua):
     """Return (family, verified: bool)."""
     operator = (operator or "").lower().rstrip(".")
@@ -77,7 +87,7 @@ def identify(operator, verified_flag, ua):
             if pat.search(operator):
                 return fam, True
         return f"verified-unknown ({operator})", True
-    return f"unverified ({ua[:40]})", False
+    return f"unverified ({_safe_ua_snippet(ua)})", False
 
 
 def main():
