@@ -4,7 +4,7 @@ Implements the **AIPREF-HTML** resource from the Web Conference 2027
 Resource Track paper: a `<meta name="content-usage">` binding carrying
 the IETF AIPREF per-purpose preference vocabulary (`train-ai`, `ai-use`,
 `search`), with a dependency-free parser, a WHATWG-based reference
-oracle, 71 conformance vectors, and a deployment toolkit (test server,
+oracle, 117 conformance vectors, and a deployment toolkit (test server,
 retrieval analyzer, Hugo integration).
 
 **Explicit non-claim:** this resource does not and cannot measure
@@ -28,7 +28,8 @@ never by User-Agent alone (paper §5).
 | `/header-content-usage.html` | `Content-Usage: train-ai=n, ...` | AIPREF HTTP header carrier |
 | `/robots-content-usage.html` | (see `/robots.txt`) | AIPREF robots.txt Content-Usage rule |
 | `/tdmrep.html` | `<meta name="tdm-reservation" content="1">` | Coexistence: TDM Reservation Protocol |
-| `/rsl.html` | RSL `prohibits` JSON-LD | Coexistence: RSL (prohibition form) |
+| `/rsl.html` | RSL `prohibits` (normative XML: `<link rel="license" type="application/rsl+xml">` + `<script type="application/rsl+xml">`) | Coexistence: RSL (prohibition form) |
+| `/rsl-license.xml` | RSL 1.0 license document (`application/rsl+xml`) | Linked license target for `/rsl.html` (§4.6.1) |
 | `/robots-noarchive.html` | `<meta name="robots" content="noarchive">` | Bing-style: no AI training |
 | `/robots-nocache.html` | `<meta name="robots" content="nocache">` | Bing-style: limited Copilot use |
 | `/named-gptbot-block.html` | `<meta name="GPTBot" content="noindex, nofollow">` | Per-bot block (contrast case) |
@@ -47,7 +48,7 @@ AIPREF §6.5 value mapping, AIPREF §5.1 multi-statement combination, and
 three-carrier evaluation (robots.txt → HTTP header → HTML meta).
 
 ```bash
-python3 parser.py --self-test   # 71/71 must pass
+python3 parser.py --self-test   # 117/117 must pass
 ```
 
 `html5lib_reference.py` is a second, independently implemented
@@ -61,9 +62,6 @@ python3 html5lib_reference.py --self-test       # 10/10 malformed vectors
 python3 html5lib_reference.py --differential    # 34/34 agree, 0 divergences
 ```
 
-`httpwg-corpus-check.py` validates the RFC 9651 dictionary parser
-against the HTTPWG `structured-field-tests` external corpus.
-
 ## Deploy
 
 All files sit at the repository root. From a clone:
@@ -75,12 +73,18 @@ python3 server.py --port 8000 --log requests.csv --secret "$(openssl rand -hex 1
 Requirements: Python 3.8+, stdlib only. Expose the port publicly (VPS,
 tunnel, or spare host). The server binds `0.0.0.0`.
 
-**Privacy:** client IPs are truncated (/24 IPv4, /48 IPv6) and HMAC-hashed
-with a per-deployment secret; raw IPs are never persisted. Operator
-identity uses forward-confirmed reverse DNS; only the verified operator
-domain is logged, never the full PTR hostname. Pass a random `--secret`
-per deployment and never publish it. Suggested retention: 90 days (see
-paper §5).
+**Privacy:** client IPs are truncated to canonical /24 (IPv4) / /48 (IPv6)
+prefixes and HMAC-hashed with a per-deployment secret; raw IPs are never
+persisted. User-Agents are capped at 512 chars and control-stripped; all
+logged fields are neutralized against spreadsheet formula injection.
+Operator identity uses forward-confirmed reverse DNS (scoped timeout);
+only the verified registrable operator domain is logged, never the full
+PTR hostname. Pass `--secret` or set `AIPREF_HMAC_SECRET` to a random
+value per deployment (if neither is given, an ephemeral secret is
+generated and client IDs change on restart); never publish it. Retention
+is enforced: rows older than `--retention-days` (default 90) are deleted
+at startup. The log file is created mode 0600. See SECURITY.md for the
+full access-control, secret-lifecycle, and incident-response policy.
 
 To attract crawlers:
 1. Submit the sitemap URL to Bing/Google Search Console.
@@ -110,7 +114,7 @@ retrieved the signal and when. Interpretation rules (see paper §5):
 
 - `server.py` — test corpus + retrieval logger (CSV: timestamp, HMAC
   client ID, verified operator domain, verification flag, UA, path)
-- `parser.py` — reference parser + 71-vector test suite
+- `parser.py` — reference parser + 117-vector test suite
   (`--self-test`); also implements `evaluate()` for three-carrier
   assessment
 - `html5lib_reference.py` — second implementation of HTML extraction
@@ -118,5 +122,6 @@ retrieved the signal and when. Interpretation rules (see paper §5):
   (`--differential`) and malformed-document vectors (`--self-test`)
 - `analyze.py` — retrieval report grouped by forward-confirmed operator
   (descriptive only)
-- `httpwg-corpus-check.py` — RFC 9651 external-corpus validation
 - `README.md` — this file
+- `SECURITY.md` — access controls, HMAC secret lifecycle, 90-day
+  retention/deletion, and incident response for the telemetry deployment
