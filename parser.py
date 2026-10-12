@@ -62,7 +62,48 @@ Stdlib only. `python3 parser.py --self-test` runs the conformance suite.
 
 import re
 import sys
+import base64
 from html.parser import HTMLParser
+
+# ---------------------------------------------------------------------------
+# Resource limits (DoS hardening for untrusted input)
+# ---------------------------------------------------------------------------
+# The parser handles attacker-controlled bytes (crawled HTML, robots.txt,
+# header values). These caps keep worst-case work linear and bounded;
+# oversized input fails closed (statement -> unknown, no assertions).
+# (robots.txt has its own RFC 9309 section 2.3 cap: ROBOTS_TXT_MAX_BYTES.)
+MAX_STATEMENT_LEN = 16_384     # 16 KiB: one dictionary serialization
+MAX_HTML_BYTES = 10_000_000    # 10 MiB: one HTML document
+
+# ---------------------------------------------------------------------------
+# Base32 decoding (HTTPWG JSON "binary" type interop)
+# ---------------------------------------------------------------------------
+# RFC 9651 byte sequences use Base64 (RFC 4648 §4). However, the HTTPWG
+# JSON serialization of Structured Fields maps the "binary" type using
+# Base32 (RFC 4648 §6) in some contexts, as Base32 avoids case-sensitivity
+# and padding issues in JSON string contexts. This helper decodes
+# Base32-encoded byte sequences for interop with such JSON mappings.
+# It is not used by the RFC 9651 parser itself (which uses Base64).
+
+def decode_base32(s):
+    """Decode RFC 4648 Base32 (no lowercase, padding optional).
+
+    Returns bytes on success, None on invalid input.
+    """
+    # Normalize: uppercase, strip whitespace
+    normalized = re.sub(r"\s", "", s).upper()
+    # Base32 alphabet: A-Z, 2-7; padding with =
+    if not re.fullmatch(r"[A-Z2-7]*={0,7}", normalized):
+        return None
+    # Add padding if needed (length must be multiple of 8)
+    pad_len = (-len(normalized.rstrip("="))) % 8
+    # Only strip existing padding, then re-pad
+    stripped = normalized.rstrip("=")
+    padded = stripped + ("=" * ((-len(stripped)) % 8))
+    try:
+        return base64.b32decode(padded, casefold=False)
+    except Exception:
+        return None
 
 # ---------------------------------------------------------------------------
 # RFC 9651 Structured Fields: Dictionary parser (§4.2.2)
@@ -122,13 +163,16 @@ def _parse_bare_item(c):
     if c.eof():
         return None
     ch = c.peek()
-    # Integer or Decimal
+    # Integer or Decimal (RFC 9651 §4.2.4)
+    # Integer range: -999,999,999,999,999 to 999,999,999,999,999
+    # Decimal: max 3 fractional digits; integer part within same range
     if ch.isdigit() or ch == "-":
         start = c.pos
         if ch == "-":
             c.pos += 1
             if c.eof() or not c.peek().isdigit():
                 return None
+        int_start = c.pos
         while not c.eof() and c.peek().isdigit():
             c.pos += 1
         vtype = "integer"
@@ -142,8 +186,21 @@ def _parse_bare_item(c):
             if frac == 0 or frac > 3:
                 return None
             vtype = "decimal"
+        # Validate integer part is within RFC 9651 range
+        # (±999,999,999,999,999 = max 15 digits)
+        if vtype == "decimal":
+            dot_pos = c.s.find(".", int_start)
+            int_digits = c.s[int_start:dot_pos]
+        else:
+            int_digits = c.s[int_start:c.pos]
+        # Remove leading zeros for range check (but keep at least one digit)
+        int_digits_stripped = int_digits.lstrip("0") or "0"
+        if len(int_digits_stripped) > 15:
+            return None
+        if len(int_digits_stripped) == 15 and int_digits_stripped > "999999999999999":
+            return None
         return (vtype, c.s[start:c.pos])
-    # String
+    # String (RFC 9651 §4.2.6: only \" and \\ are valid escapes)
     if ch == '"':
         c.pos += 1
         out = []
@@ -153,12 +210,17 @@ def _parse_bare_item(c):
                 c.pos += 1
                 if c.eof():
                     return None
-                out.append(c.peek())
+                esc = c.peek()
+                # RFC 9651 §4.2.6: only DQUOTE and backslash may be escaped
+                if esc not in ('"', "\\"):
+                    return None
+                out.append(esc)
                 c.pos += 1
             elif ch2 == '"':
                 c.pos += 1
                 return ("string", "".join(out))
-            elif ch2 in ' \t!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~':
+            elif ch2 in ' \t!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~':
+                # Note: backslash and DQUOTE excluded; must use escapes
                 out.append(ch2)
                 c.pos += 1
             else:
@@ -171,7 +233,7 @@ def _parse_bare_item(c):
         while not c.eof() and c.peek() in _TOKEN_CHAR:
             c.pos += 1
         return ("token", c.s[start:c.pos])
-    # Byte sequence
+    # Byte sequence (RFC 9651 §4.2.7: content MUST be valid Base64 per RFC 4648)
     if ch == ":":
         c.pos += 1
         start = c.pos
@@ -179,8 +241,20 @@ def _parse_bare_item(c):
             c.pos += 1
         if c.eof():
             return None
+        b64_content = c.s[start:c.pos]
         c.pos += 1
-        return ("bytes", c.s[start:c.pos - 1])
+        # Validate RFC 4648 Base64 alphabet (no whitespace allowed in content)
+        if not re.fullmatch(r"[A-Za-z0-9+/]*={0,2}", b64_content):
+            return None
+        # Validate proper Base64 structure (length multiple of 4, valid padding)
+        if len(b64_content) % 4 != 0:
+            return None
+        # Padding must only appear at end, max 2 chars
+        if "=" in b64_content:
+            pad_idx = b64_content.index("=")
+            if not re.fullmatch(r"={1,2}", b64_content[pad_idx:]):
+                return None
+        return ("bytes", b64_content)
     # Boolean
     if ch == "?":
         c.pos += 1
@@ -189,32 +263,65 @@ def _parse_bare_item(c):
         val = c.peek() == "1"
         c.pos += 1
         return ("boolean", val)
-    # Date
+    # Date (RFC 9651 §4.2.7: "@" followed by non-negative integer)
     if ch == "@":
         c.pos += 1
+        # Negative dates are invalid (dates are non-negative per §3.3.7)
+        if not c.eof() and c.peek() == "-":
+            return None
         start = c.pos
-        if ch == "-":
-            pass
         while not c.eof() and c.peek().isdigit():
             c.pos += 1
         if c.pos == start:
             return None
         return ("date", c.s[start:c.pos])
-    # Display string
+    # Display string (RFC 9651 §4.2.8)
+    # Format: %"..." with \" and \\ escapes, %XX pct-encoding for
+    # non-ASCII/unprintable bytes. Decoded output must be valid UTF-8.
     if ch == "%":
         c.pos += 1
         if c.eof() or c.peek() != '"':
             return None
         c.pos += 1
-        while not c.eof() and c.peek() != '"':
-            # simplified: accept any char except bare DQUOTE/CTL
-            if ord(c.peek()) < 0x20 or ord(c.peek()) == 0x7F:
+        out_bytes = bytearray()
+        while not c.eof():
+            ch2 = c.peek()
+            if ch2 == '"':
+                c.pos += 1
+                # Validate the accumulated bytes are valid UTF-8
+                try:
+                    decoded = bytes(out_bytes).decode("utf-8")
+                except UnicodeDecodeError:
+                    return None
+                return ("dispstr", decoded)
+            elif ch2 == "\\":
+                c.pos += 1
+                if c.eof():
+                    return None
+                esc = c.peek()
+                # Only \" and \\ are valid escapes (same as strings)
+                if esc not in ('"', "\\"):
+                    return None
+                out_bytes.extend(esc.encode("utf-8"))
+                c.pos += 1
+            elif ch2 == "%":
+                # Pct-encoded byte: % followed by 2 hex digits
+                c.pos += 1
+                if c.pos + 1 >= len(c.s):
+                    return None
+                hex_digits = c.s[c.pos:c.pos + 2]
+                if not re.fullmatch(r"[0-9A-Fa-f]{2}", hex_digits):
+                    return None
+                out_bytes.append(int(hex_digits, 16))
+                c.pos += 2
+            elif 0x20 <= ord(ch2) <= 0x7E:
+                # Printable ASCII (except " and \ handled above)
+                out_bytes.extend(ch2.encode("utf-8"))
+                c.pos += 1
+            else:
+                # CTLs, DEL, and non-ASCII must use pct-encoding
                 return None
-            c.pos += 1
-        if c.eof():
-            return None
-        c.pos += 1
-        return ("dispstr", None)
+        return None  # unterminated
     return None
 
 
@@ -251,10 +358,10 @@ def _parse_item_or_inner_list(c):
             if c.peek() == ")":
                 c.pos += 1
                 break
-            # member: item or nested inner list
+            # member: item only (RFC 9651 §4.2.1.2: inner lists
+            # MUST NOT contain nested inner lists)
             if c.peek() == "(":
-                if _parse_item_or_inner_list(c) is None:
-                    return None
+                return None
             else:
                 if _parse_bare_item(c) is None:
                     return None
@@ -284,7 +391,12 @@ def parse_sf_dictionary(s):
     Returns an ordered dict {key: (vtype, value)} with last-wins
     duplicate handling, or None if parsing fails. Parameters are
     parsed and discarded (AIPREF §6.5: disregarded).
+
+    Resource limit: serializations longer than MAX_STATEMENT_LEN fail
+    closed (None -> unknown downstream).
     """
+    if len(s) > MAX_STATEMENT_LEN:
+        return None
     c = _Cursor(s)
     c.skip_sp()  # leading SP discarded
     result = {}
@@ -458,7 +570,12 @@ def extract_meta_contents(html):
 
     Each element is evaluated as an independent statement downstream.
     Missing content attribute -> None (contributes no assertions).
+
+    Resource limit: documents larger than MAX_HTML_BYTES yield no
+    statements (fail closed).
     """
+    if len(html) > MAX_HTML_BYTES:
+        return []
     p = _HeadMetaParser()
     try:
         p.feed(html)
@@ -471,15 +588,97 @@ def extract_meta_contents(html):
 # robots.txt: RFC 9309 groups + AIPREF Content-Usage rules
 # ---------------------------------------------------------------------------
 
+# RFC 9309 §2.3: "crawlers MUST" parse at most 500 kibibytes of robots.txt.
+ROBOTS_TXT_MAX_BYTES = 500 * 1024
+
+
+def _norm_pattern(pattern):
+    """Canonicalize %XX triplets in a rule pattern to uppercase hex.
+
+    Lets webmaster-written lowercase encodings (e.g. %2f) compare equal
+    to the normalized request path (see _encode_path).
+    """
+    return re.sub(r"%[0-9a-fA-F]{2}", lambda m: m.group(0).upper(), pattern)
+
+
+def _pattern_to_regex(pattern):
+    """Compile an RFC 9309 §2.2.2 path pattern to a regex.
+
+    '*' matches zero or more characters; a trailing '$' anchors the
+    match at the end of the path. A '$' anywhere else is literal.
+    Every other character matches literally.
+    """
+    anchored = pattern.endswith("$")
+    body = pattern[:-1] if anchored else pattern
+    rx = ".*".join(re.escape(part) for part in body.split("*"))
+    return re.compile("^" + rx + ("$" if anchored else ""))
+
+
+def _encode_path(path):
+    """Percent-encode a URL path for robots.txt matching (RFC 9309 §2.2.2).
+
+    Matching is performed on the percent-encoded form: existing %XX
+    triplets are preserved (hex normalized to uppercase), characters
+    legal unencoded in a path (RFC 3986 pchar plus '/') pass through
+    unchanged, and everything else is UTF-8 percent-encoded with
+    uppercase hex.
+    """
+    out = []
+    i, n = 0, len(path)
+    while i < n:
+        c = path[i]
+        if (c == "%" and i + 2 < n
+                and all(ch in "0123456789abcdefABCDEF"
+                        for ch in path[i + 1:i + 3])):
+            out.append("%" + path[i + 1:i + 3].upper())
+            i += 3
+        elif c.isascii() and (c.isalnum() or c in "-._~!$&'()*+,;=:@/"):
+            out.append(c)
+            i += 1
+        else:
+            out.extend("%%%02X" % b for b in c.encode("utf-8"))
+            i += 1
+    return "".join(out)
+
+
+def _best_rule_match(rules, enc_path):
+    """Longest-match rule selection per RFC 9309 §2.2.2.
+
+    `rules` is an iterable of (allow: bool, pattern: str); `enc_path`
+    is the percent-encoded request path. Returns (allow, octets) of the
+    winning rule, or None when nothing matches. Specificity is measured
+    in octets of the pattern; ties resolve to Allow.
+    """
+    best = None
+    for allow, pattern in rules:
+        if _pattern_to_regex(pattern).match(enc_path):
+            octets = len(pattern.encode("utf-8"))
+            if best is None or octets > best[1]:
+                best = (allow, octets)
+            elif octets == best[1] and allow:
+                best = (True, octets)  # tie: Allow wins
+    return best
+
+
 def parse_robots_txt(text):
     """Parse robots.txt into groups.
 
     Returns [{'agents': [lowercased tokens], 'rules': [(allow: bool, path)],
     'content_usage': [(path_or_None, serialization)]}].
-    Lines the parser does not understand are skipped (RFC 9309 §2.2.4:
-    "crawlers MUST ignore rules they do not understand"... actually
-    unknown lines are ignored per the spec's tolerance rules).
+
+    RFC 9309 handling:
+    - §2.3: at most 500 KiB are parsed (input truncated at a line
+      boundary; rules past the limit are ignored).
+    - §2.4: '#' starts a comment anywhere on the line, including after
+      a field value.
+    - §2.2.2: empty Disallow means "allow all"; empty Allow matches
+      nothing and is ignored.
+    Unknown lines are ignored per the spec's tolerance rules.
     """
+    if len(text.encode("utf-8")) > ROBOTS_TXT_MAX_BYTES:
+        cut = (text.encode("utf-8")[:ROBOTS_TXT_MAX_BYTES]
+               .decode("utf-8", "ignore"))
+        text = cut.rsplit("\n", 1)[0]  # avoid a torn final line
     groups = []
     current = None  # list of groups sharing accumulated agent lines
 
@@ -487,8 +686,9 @@ def parse_robots_txt(text):
         return {"agents": [], "rules": [], "content_usage": []}
 
     for raw_line in text.splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#"):
+        # RFC 9309 §2.4: '#' begins a comment running to end of line.
+        line = raw_line.split("#", 1)[0].strip()
+        if not line:
             continue
         if ":" not in line:
             continue
@@ -497,6 +697,8 @@ def parse_robots_txt(text):
         value = value.strip()
         if field == "user-agent":
             token = value.lower()
+            if not token:
+                continue
             if current is None or current[0].get("has_rules"):
                 # start a new group run
                 g = new_group()
@@ -511,13 +713,17 @@ def parse_robots_txt(text):
         elif field in ("allow", "disallow"):
             if current is None:
                 continue
+            if field == "allow" and value == "":
+                # Empty Allow matches nothing (RFC 9309 §2.2.2); ignore.
+                continue
             for g in current:
                 g["has_rules"] = True
                 # Empty Disallow = allow all (RFC 9309); record as allow-all
                 if field == "disallow" and value == "":
                     g["rules"].append((True, "/"))
                 else:
-                    g["rules"].append((field == "allow", value))
+                    g["rules"].append((field == "allow",
+                                       _norm_pattern(value)))
         elif field == "content-usage":
             if current is None:
                 continue
@@ -534,7 +740,8 @@ def parse_robots_txt(text):
                     # A path-pattern never contains '=' or ','.
                     first, rest = m.group(1), m.group(2)
                     if "=" not in first and "," not in first:
-                        g["content_usage"].append((first, rest))
+                        g["content_usage"].append((_norm_pattern(first),
+                                                   rest))
                     else:
                         g["content_usage"].append((None, value))
                 else:
@@ -587,39 +794,43 @@ def _groups_for_agent(groups, user_agent):
 
 
 def robots_allows(group, path):
-    """RFC 9309 §2.2.2 acquisition check. Returns True if crawlable."""
+    """RFC 9309 §2.2.2 acquisition check. Returns True if crawlable.
+
+    Path patterns support '*' (zero or more characters) and a trailing
+    '$' (end-of-path anchor). Matching is performed on the
+    percent-encoded path; the most specific (longest, in octets)
+    matching rule wins, with Allow winning ties.
+    """
     if group is None:
         return True
-    best = None  # (octets, allow)
-    for allow, rule_path in group["rules"]:
-        if path.startswith(rule_path):
-            if best is None or len(rule_path) > best[0]:
-                best = (len(rule_path), allow)
-            elif len(rule_path) == best[0] and allow:
-                best = (len(rule_path), True)  # tie: Allow wins
+    best = _best_rule_match(group["rules"], _encode_path(path))
     if best is None:
         return True
-    return best[1]
+    return best[0]
 
 
 def robots_content_usage(group, path):
     """AIPREF attachment draft §3: usage preferences for a crawlable path.
 
-    Among Content-Usage rules whose path-pattern is a prefix of `path`,
-    the longest-matching path wins (same prefix rule as Allow/Disallow);
-    rules tied on path length each contribute a separate statement.
+    Among Content-Usage rules whose path-pattern matches `path` under
+    RFC 9309 §2.2.2 semantics ('*' wildcard, trailing '$' anchor,
+    percent-encoded comparison), the longest-matching pattern in octets
+    wins; rules tied on pattern length each contribute a separate
+    statement.
     """
     if group is None:
         return []
-    best_len = -1
+    enc_path = _encode_path(path)
+    best_octets = -1
     winners = []
     for rule_path, serial in group["content_usage"]:
         rp = rule_path if rule_path is not None else "/"
-        if path.startswith(rp):
-            if len(rp) > best_len:
-                best_len = len(rp)
+        if _pattern_to_regex(rp).match(enc_path):
+            octets = len(rp.encode("utf-8"))
+            if octets > best_octets:
+                best_octets = octets
                 winners = [serial]
-            elif len(rp) == best_len:
+            elif octets == best_octets:
                 winners.append(serial)
     return [statement_prefs(s) for s in winners]
 
@@ -942,6 +1153,209 @@ VECTORS = [
      {"user_agent": "TestBot/1.0", "path": "/x",
       "html": '<html><head><title>t</title></head></html>'},
      (True, {})),
+
+    # --- RFC 9309 §2.2.2: '*' wildcard and '$' end anchor ---
+    ("robots: '*' wildcard matches across path segments",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/a/b/c",
+      "robots_txt": "User-agent: *\nDisallow: /a/*\n"},
+     (False, {})),
+    ("robots: '*' matches zero characters",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/a/",
+      "robots_txt": "User-agent: *\nDisallow: /a/*\n"},
+     (False, {})),
+    ("robots: '$' anchors at end of path",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/x.php",
+      "robots_txt": "User-agent: *\nDisallow: /*.php$\n"},
+     (False, {})),
+    ("robots: '$' does not match a longer path",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/x.php2",
+      "robots_txt": "User-agent: *\nDisallow: /*.php$\n"},
+     (True, {})),
+    ("robots: '$' mid-pattern is a literal character",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/a$b",
+      "robots_txt": "User-agent: *\nDisallow: /a$b\n"},
+     (False, {})),
+    ("robots: longer wildcard pattern beats shorter literal (octets)",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/fish.php",
+      "robots_txt": "User-agent: *\nDisallow: /fish\nAllow: /fish*\n"},
+     (True, {})),
+    ("robots: equal-length patterns -> Allow wins the tie",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/x",
+      "robots_txt": "User-agent: *\nDisallow: /x\nAllow: /x\n"},
+     (True, {})),
+
+    # --- RFC 9309 §2.2.2: percent-encoded comparison ---
+    ("robots: encoded rule matches encoded path",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/foo%2fbar",
+      "robots_txt": "User-agent: *\nDisallow: /foo%2fbar\n"},
+     (False, {})),
+    ("robots: plain rule does not match differently-encoded path",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/foo%2Fbar",
+      "robots_txt": "User-agent: *\nDisallow: /foo/bar\n"},
+     (True, {})),
+    ("robots: wildcard works on percent-encoded paths",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/caf%C3%A9/x",
+      "robots_txt": "User-agent: *\nDisallow: /caf%C3%A9/*\n"},
+     (False, {})),
+
+    # --- RFC 9309 §2.4: comments; §2.2.2: empty rules ---
+    ("robots: trailing comment after Disallow value is ignored",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/private/x",
+      "robots_txt": "User-agent: *\nDisallow: /private/ # keep out\n"},
+     (False, {})),
+    ("robots: trailing comment after User-agent/Allow is ignored",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/x",
+      "robots_txt": "# top comment\nUser-agent: * # bots\nAllow: / # all\n"},
+     (True, {})),
+    ("robots: empty Disallow allows everything",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/anything",
+      "robots_txt": "User-agent: *\nDisallow:\n"},
+     (True, {})),
+    ("robots: empty Allow matches nothing (does not allow-all)",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/private/x",
+      "robots_txt": "User-agent: *\nDisallow: /private/\nAllow:\n"},
+     (False, {})),
+
+    # --- RFC 9309 §2.3: 500 KiB parse limit ---
+    ("robots: rules past 500 KiB are ignored",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/late",
+      "robots_txt": ("User-agent: *\nAllow: /\n" + "#pad\n" * 200000
+                     + "Disallow: /late\n")},
+     (True, {})),
+    ("robots: rules within 500 KiB still apply in a large file",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/early",
+      "robots_txt": ("User-agent: *\nDisallow: /early\n" + "#pad\n" * 200000)},
+     (False, {})),
+
+    # --- RFC 9309 §2.2.1: group selection (lock in combined behavior) ---
+    ("robots: several matching named groups combine (prefix match)",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/p",
+      "robots_txt": ("User-agent: Test\nAllow: /\n\n"
+                     "User-agent: TestBot\nDisallow: /p\n")},
+     (False, {})),
+    ("robots: group with '*' plus non-matching name falls back to '*'",
+     "eval",
+     {"user_agent": "OtherBot/1.0", "path": "/s",
+      "robots_txt": "User-agent: TestBot\nUser-agent: *\nDisallow: /s\n"},
+     (False, {})),
+
+    # --- Content-Usage path-patterns share RFC 9309 matching ---
+    ("robots: Content-Usage path-pattern supports '*'",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/blog/2024/x",
+      "robots_txt": ("User-agent: *\nAllow: /\n"
+                     "Content-Usage: /blog/* train-ai=n\n")},
+     (True, {"train-ai": "n"})),
+    ("robots: Content-Usage '$' anchor selects exact path only",
+     "eval",
+     {"user_agent": "TestBot/1.0", "path": "/exact",
+      "robots_txt": ("User-agent: *\nAllow: /\n"
+                     "Content-Usage: /exact$ train-ai=n\n"
+                     "Content-Usage: / train-ai=y\n")},
+     (True, {"train-ai": "n"})),
+
+    # --- RFC 9651 strictness fixes ---
+    # Quoted-string escapes (§4.2.6): only \" and \\ are valid
+    ("string: escaped DQUOTE is valid",
+     "stmt", 'x-custom="a\\"b"',
+     {"x-custom": "u"}),
+    ("string: escaped backslash is valid",
+     "stmt", 'x-custom="a\\\\b"',
+     {"x-custom": "u"}),
+    ("string: invalid escape (\\n) -> whole statement unknown",
+     "stmt", 'x-custom="a\\nb"',
+     {}),
+    ("string: invalid escape (\\t) -> whole statement unknown",
+     "stmt", 'train-ai="n", x-custom="a\\tb"',
+     {}),
+    ("string: bare backslash -> whole statement unknown",
+     "stmt", 'x-custom="a\\b"',
+     {}),
+    # Byte sequence Base64 validation (RFC 4648)
+    ("bytes: valid Base64 -> unknown (not a token)",
+     "stmt", "x-custom=:aGVsbG8=:",
+     {"x-custom": "u"}),
+    ("bytes: unpadded Base64 (length not multiple of 4) -> whole statement unknown",
+     "stmt", "x-custom=:aGVsbG8:",
+     {}),
+    ("bytes: invalid Base64 chars -> whole statement unknown",
+     "stmt", "x-custom=:aGVsbG8!@:",
+     {}),
+    ("bytes: bad padding -> whole statement unknown",
+     "stmt", "x-custom=:aGVsbG8===:",
+     {}),
+    ("bytes: length not multiple of 4 -> whole statement unknown",
+     "stmt", "x-custom=:abc:",
+     {}),
+    # Integer range limits (§4.2.4: ±999,999,999,999,999)
+    ("integer: max valid (999999999999999) -> unknown",
+     "stmt", "x-custom=999999999999999",
+     {"x-custom": "u"}),
+    ("integer: min valid (-999999999999999) -> unknown",
+     "stmt", "x-custom=-999999999999999",
+     {"x-custom": "u"}),
+    ("integer: too large (1000000000000000) -> whole statement unknown",
+     "stmt", "x-custom=1000000000000000",
+     {}),
+    ("integer: too small (-1000000000000000) -> whole statement unknown",
+     "stmt", "x-custom=-1000000000000000",
+     {}),
+    ("decimal: max 3 fractional digits ok",
+     "stmt", "x-custom=1.234",
+     {"x-custom": "u"}),
+    ("decimal: 4 fractional digits -> whole statement unknown",
+     "stmt", "x-custom=1.2345",
+     {}),
+    ("decimal: integer part too large -> whole statement unknown",
+     "stmt", "x-custom=1000000000000000.5",
+     {}),
+    # Negative dates rejected (§3.3.7: dates are non-negative)
+    ("date: negative date -> whole statement unknown",
+     "stmt", "x-custom=@-123",
+     {}),
+    ("date: valid date -> unknown (not a token)",
+     "stmt", "x-custom=@1234567890",
+     {"x-custom": "u"}),
+    # Display strings (§4.2.8)
+    ("dispstr: simple ASCII -> unknown (not a token)",
+     "stmt", 'x-custom=%"hello"',
+     {"x-custom": "u"}),
+    ("dispstr: pct-encoded UTF-8 (Hello) -> unknown",
+     "stmt", 'x-custom=%"%48%65%6c%6c%6f"',
+     {"x-custom": "u"}),
+    ("dispstr: escaped DQUOTE -> unknown",
+     "stmt", 'x-custom=%"a\\"b"',
+     {"x-custom": "u"}),
+    ("dispstr: invalid pct-encoding -> whole statement unknown",
+     "stmt", 'x-custom=%"a%zzb"',
+     {}),
+    ("dispstr: bare non-ASCII -> whole statement unknown",
+     "stmt", 'x-custom=%"caf\xc3\xa9"',
+     {}),
+    # Nested inner lists rejected (§4.2.1.2)
+    ("inner-list: nested inner list -> whole statement unknown",
+     "stmt", "x-custom=((a b))",
+     {}),
+    ("inner-list: simple inner list -> unknown (not a token)",
+     "stmt", "x-custom=(a b)",
+     {"x-custom": "u"}),
 ]
 
 
